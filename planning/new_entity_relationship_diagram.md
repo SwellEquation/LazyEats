@@ -29,7 +29,7 @@ Table nutrients {
 }
 
 Table dish_nutrients {
-  dish_id integer [not null]
+  dish_id integer [not null]  （foreign）
   nutrient_id integer [not null]
   amount decimal [not null]
   unit varchar [not null]

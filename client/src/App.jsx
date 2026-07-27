@@ -1,28 +1,51 @@
+import { useState, useEffect } from 'react'
 import { useRoutes } from 'react-router-dom'
 import Header from './components/Header.jsx'
-import ViewRecipes from './pages/viewRecipes.jsx'
-import RecipeDetail from './pages/recipeDetail.jsx'
-import EditRecipe from './pages/editRecipe.jsx'
-import CreateRecipe from './pages/createRecipe.jsx'
+import ViewDishes from './pages/viewDishes.jsx'
+import DishDetail from './pages/dishDetail.jsx'
+import EditDish from './pages/editDish.jsx'
+import CreateDish from './pages/createDish.jsx'
 import './App.css'
 
 const App = () => {
+  const [dishes, setDishes] = useState([]);
+  const [foods, setFoods] = useState([]);
+  const API_URL = 'http://localhost:3001'
+
+  useEffect(() => {
+    const fetchDishes = async () => {
+      const response = await fetch(`${API_URL}/api/dishs`)
+      const data = await response.json()
+      setDishes(data)
+    }
+
+    const fetchFoods = async () => {
+      const response = await fetch(`${API_URL}/api/foods`)
+      const data = await response.json()
+      setFoods(data)
+    }
+
+    fetchDishes()
+    fetchFoods()
+
+  }, []);
+
   let element = useRoutes([
     {
       path: '/',
-      element: <ViewRecipes title='Lazy Eats | Recipes' />
+      element: <ViewDishes title='Lazy Eats | Dishes' data={dishes} API_URL={API_URL} />
     },
     {
-      path: '/recipes/new',
-      element: <CreateRecipe title='Lazy Eats | New Recipe' />
+      path: '/dishes/new',
+      element: <CreateDish title='Lazy Eats | New Dish' API_URL={API_URL} />
     },
     {
-      path: '/recipes/:id',
-      element: <RecipeDetail title='Lazy Eats | Recipe' />
+      path: '/dishes/:id',
+      element: <DishDetail title='Lazy Eats | Dish' data={dishes} API_URL={API_URL} />
     },
     {
-      path: '/recipes/:id/edit',
-      element: <EditRecipe title='Lazy Eats | Edit Recipe' />
+      path: '/dishes/:id/edit',
+      element: <EditDish title='Lazy Eats | Edit Dish' data={dishes} API_URL={API_URL} />
     }
   ])
 

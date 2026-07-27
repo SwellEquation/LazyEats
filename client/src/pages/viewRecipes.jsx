@@ -4,6 +4,8 @@ import { getAllRecipes } from '../services/recipesApi.jsx'
 import Card from '../components/Card.jsx'
 import './viewRecipes.css'
 import './recipeDetail.css'
+import FilterSidebar from '../components/FilterSidebar.jsx'
+
 const ViewRecipes = ({ title }) => {
   const [recipes, setRecipes] = useState([])
 
@@ -12,9 +14,13 @@ const ViewRecipes = ({ title }) => {
     getAllRecipes().then(setRecipes)
   }, [title])
 
+  const handleApplyFilters = async (filteredRecipes) => {
+    setRecipes(filteredRecipes)
+  }
+  
   return (
     <div className='view-recipes'>
-      
+      <FilterSidebar onApplyFilters={handleApplyFilters} />
       <div className='card-list'>
         {recipes.map(recipe => (
           <Card
