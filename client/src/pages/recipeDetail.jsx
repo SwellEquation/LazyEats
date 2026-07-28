@@ -7,7 +7,8 @@ const RecipeDetail = ({ title }) => {
   const { id } = useParams()
   const navigate = useNavigate()
   const [recipe, setRecipe] = useState(null)
-
+  const [loading, setLoading] = useState()
+  
   useEffect(() => {
     document.title = title
     getRecipeById(id).then(setRecipe)

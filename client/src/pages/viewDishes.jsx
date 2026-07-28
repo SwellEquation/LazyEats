@@ -20,19 +20,24 @@ const ViewDishes = ({ title, data, API_URL }) => {
 
   return (
     <div className='view-recipes'>
-      <FilterSidebar onApplyFilters={handleApplyFilters} />
-      <div className='card-list'>
-        {dishes.map(dish => (
-          <Card
-            key={dish.id}
-            id={dish.id}
-            title={dish.name}
-            cook_time_mins={dish.cooking_time}
-            est_cost={dish.cost}
-          />
-        ))}
+      <div className='filter-sidebar'>
+        <FilterSidebar onApplyFilters={handleApplyFilters} />
       </div>
-      <Link to='/dishes/new' className='btn btn-update create-link'>+ Create Dish</Link>
+
+      <div className='content-area'>
+        <div className='card-list'>
+          {dishes.map(dish => (
+            <Card
+              key={dish.id}
+              id={dish.id}
+              title={dish.name}
+              cook_time_mins={dish.cooking_time}
+              est_cost={dish.cost}
+            />
+          ))}
+        </div>
+        <Link to='/dishes/new' className='btn btn-update create-link'>+ Create Dish</Link>
+      </div>
     </div>
   )
 }

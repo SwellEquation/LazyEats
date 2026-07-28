@@ -1,3 +1,11 @@
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* height: 100vh; */
+    margin-top: 30px;
+}
+
 .recipe-detail {
     width: 400px;
     margin: 20px auto;
@@ -18,6 +26,8 @@
     display: flex;
     gap: 12px;
     margin-top: 14px;
+    /* justify-content: space-between; */
+    flex-direction: column;
 }
 
 .btn {
@@ -34,6 +44,7 @@
     background: #ffffff;
     color: black;
     border: 1px solid #639922;
+    text-align: center;
 
 }
 
@@ -41,4 +52,22 @@
     background: #ffffff;
     color: #b3261e;
     border: 1px solid #b3261e;
+}
+
+/* display the nutrients */
+.nutrients-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.nutrient-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+.nutrient-value {
+  text-align: right;
+  color: #666;
 }

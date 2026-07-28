@@ -5,6 +5,7 @@ import ViewDishes from './pages/viewDishes.jsx'
 import DishDetail from './pages/dishDetail.jsx'
 import EditDish from './pages/editDish.jsx'
 import CreateDish from './pages/createDish.jsx'
+import FoodIngredientSearch from './pages/FoodIngredientSearch.jsx'
 import './App.css'
 
 const App = () => {
@@ -46,7 +47,12 @@ const App = () => {
     {
       path: '/dishes/:id/edit',
       element: <EditDish title='Lazy Eats | Edit Dish' data={dishes} API_URL={API_URL} />
+    },
+    {
+      path:'/foods-nutrients',
+      element: <FoodIngredientSearch data={foods} API_URL={API_URL}/>
     }
+
   ])
 
   return (

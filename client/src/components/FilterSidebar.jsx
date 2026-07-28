@@ -3,7 +3,7 @@ import './FilterSidebar.css'
 
 export default function FilterSidebar({ onApplyFilters }) {
   const [cookTime, setCookTime] = useState(null)
-  const [budget, setBudget] = useState(8)
+  const [budget, setBudget] = useState(20)
 
   const cookTimeOptions = [
     { label: 'Any', value: null },
@@ -28,7 +28,8 @@ export default function FilterSidebar({ onApplyFilters }) {
 
   const handleClear = () => {
     setCookTime(null)
-    setBudget(8)
+    setBudget(20)
+    window.location.href = '/'
   }
 
 

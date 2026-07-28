@@ -394,6 +394,20 @@ const data = {
     { dish_id: 5, nutrient_id: 5, amount: 250, unit: "kcal" },
     { dish_id: 5, nutrient_id: 18, amount: 2, unit: "mg" },
     { dish_id: 5, nutrient_id: 21, amount: 200, unit: "mg" }
+  ],
+  food_ingredients: [
+    // Wheat Flour (food_id: 1)
+    { food_id: 1, ingredient_id: 2, amount: 500, unit: "g" },
+    { food_id: 1, ingredient_id: 4, amount: 10, unit: "g" },
+    { food_id: 1, ingredient_id: 1, amount: 150, unit: "ml" },
+    // White Sugar (food_id: 2)
+    { food_id: 2, ingredient_id: 3, amount: 1000, unit: "g" },
+    // Eggs (food_id: 3)
+    { food_id: 3, ingredient_id: 8, amount: 1, unit: "pcs" },
+    // Butter (food_id: 4)
+    { food_id: 4, ingredient_id: 6, amount: 250, unit: "g" },
+    // Milk (food_id: 5)
+    { food_id: 5, ingredient_id: 9, amount: 1000, unit: "ml" }
   ]
 };
 

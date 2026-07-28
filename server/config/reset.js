@@ -2,7 +2,7 @@ import {pool} from './database.js'
 import './dotenv.js'
 import { recipesData } from '../data/recipeData.js'
 import { data } from '../data/data.js'
-const { dishes, nutrients, foods, ingredients, dish_nutrients } = data 
+const { dishes, nutrients, foods, ingredients, dish_nutrients, food_ingredients } = data 
 
 //const { dishes, nutrients, foods, ingredients } = rawData
 const dropAllTables = async () => {
@@ -279,6 +279,22 @@ const seedDishNutrients = async() => {
     }
 }
 
+const seedFoodIngredients = async() => {
+    await createFoodIngredientsTable()
+
+    const insertQuery = 'INSERT INTO food_ingredients (food_id, ingredient_id, amount, unit) VALUES ($1, $2, $3, $4)'
+
+    for (const fi of food_ingredients) {
+        const values = [fi.food_id, fi.ingredient_id, fi.amount, fi.unit]
+        try {
+            await pool.query(insertQuery, values)
+            console.log(`✅ Food ${fi.food_id} - Ingredient ${fi.ingredient_id} added successfully`)
+        } catch (err) {
+            console.error('⚠️ error inserting food_ingredients', err)
+        }
+    }
+}
+
 
 // 按你现在的设计，一条 diet_record 记录只能关联一个 dish 或一个 food（因为字段里只有一个 dish_id 和一个 food_id）。
 
@@ -295,7 +311,7 @@ const resetDatabase = async () => {
   await createUsersTable()
 
   await seedDishNutrients()
-  await createFoodIngredientsTable()
+  await seedFoodIngredients()
   console.log('🎉 Database reset and seeded successfully')
   process.exit(0)
 }
