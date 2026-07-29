@@ -27,29 +27,39 @@ Backend: Node.js, Express, PostgreSQL
 
 ## Features
 
-### View All Recipes
+### ✅Filtered Recipe
+We can filtered the Recipe based on the budget and cooking time
+![](filteredDishes.gif)
+
+
+### ✅View Single Recipe
+
+Click into any recipe from the list to see its full detail page, including cook time, estimated cost, and the complete ingredient list.
+![](DishDetail.gif)
+
+### ✅View Food and its ingredients
+We can search food and find its ingredients. Those ingredients are highlighted if they are not healthy.
+![](FoodIngredient.gif)
+
+### ✅View All Recipes
 
 Browse the full list of recipes as cards showing title, cook time, and estimated cost, with quick links into each recipe's detail page.
 ![](viewAllRecipes.gif)
 
-### View Single Recipe
-
-Click into any recipe from the list to see its full detail page, including cook time, estimated cost, and the complete ingredient list.
-![](recipeDetail.gif)
 
 
-### Create Recipe
+### ✅Create Recipe
 
 Add a new recipe with a title, cook time, estimated cost, and a comma-separated list of ingredients through a simple form.
 ![](createRecipe.gif)
 
 
-### Update Recipe
+### ✅Update Recipe
 
 Edit an existing recipe's title, cook time, estimated cost, or ingredients, and save the changes from its detail page.
 ![](updateRecipe.gif)
 
-### Delete Recipe
+### ✅Delete Recipe
 
 Remove a recipe from the list entirely with one click from its detail page.
 ![](deleteRecipe.gif)
