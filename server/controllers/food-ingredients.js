@@ -4,7 +4,7 @@ const getFoodIngredients = async(req,res)=>{
     try{
         const {food_id} = req.params
         const result = await pool.query(
-            `SELECT fi.*, i.name
+            `SELECT fi.*, i.name, i.type, i.description
             FROM food_ingredients fi
             JOIN ingredients i ON fi.ingredient_id = i.id
             WHERE fi.food_id = $1

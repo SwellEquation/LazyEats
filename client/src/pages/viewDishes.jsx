@@ -35,8 +35,12 @@ const ViewDishes = ({ title, data, API_URL }) => {
               est_cost={dish.cost}
             />
           ))}
+
+            <div className='card'>
+              <Link to='/dishes/new' className=' create-link'>+ Create Dish</Link>
+            </div>
         </div>
-        <Link to='/dishes/new' className='btn btn-update create-link'>+ Create Dish</Link>
+        
       </div>
     </div>
   )

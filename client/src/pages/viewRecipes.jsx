@@ -31,8 +31,13 @@ const ViewRecipes = ({ title }) => {
             est_cost={recipe.est_cost}
           />
         ))}
+          <div className='card'>  {/* 移除原来的空Card */}
+            <Link to='/recipes/new' className='btn btn-update create-link'>
+              + Create Recipe
+            </Link>
+          </div>
       </div>
-      <Link to='/recipes/new' className='btn btn-update create-link'>+ Create Recipe</Link>
+
     </div>
   )
 }

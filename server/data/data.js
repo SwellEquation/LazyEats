@@ -208,148 +208,290 @@ const data = {
       name:"Milk",
       brand:"Mengniu",
       img_url:"https://images.unsplash.com/photo-1550583874-4b7555b50d7e?w=400"
+    },
+    {
+      id:6,
+      name:"Instant Noodles",
+      brand:"Top Ramen",
+      img_url:"https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=400"
+    },
+    {
+      id:7,
+      name:"Processed Cheese Slices",
+      brand:"Kraft",
+      img_url:"https://images.unsplash.com/photo-1452894696563-c2a7014e5a7a?w=400"
+    },
+    {
+      id:8,
+      name:"Canned Spam",
+      brand:"Hormel",
+      img_url:"https://images.unsplash.com/photo-1599599810694-b5ac4dd26432?w=400"
+    },
+    {
+      id:9,
+      name:"Flavored Potato Chips",
+      brand:"Lay's",
+      img_url:"https://images.unsplash.com/photo-1585518419759-872ce6f6b2fe?w=400"
     }
   ],
   ingredients: [
     {
       id:1,
-      name:"Water"
+      name:"Water",
+      type:"safe",
+      description:"Essential for hydration and baking. No health concerns."
     },
     {
       id:2,
-      name:"Wheat Flour"
+      name:"Wheat Flour",
+      type:"safe",
+      description:"Good source of carbohydrates and fiber. Contains gluten - avoid if celiac."
     },
     {
       id:3,
-      name:"Sugar"
+      name:"Sugar",
+      type:"caution",
+      description:"High calorie content. Excessive consumption linked to obesity and diabetes."
     },
     {
       id:4,
-      name:"Salt"
+      name:"Salt",
+      type:"caution",
+      description:"Essential mineral but high sodium can increase blood pressure. Use in moderation."
     },
     {
       id:5,
-      name:"Yeast"
+      name:"Yeast",
+      type:"safe",
+      description:"Natural fermentation agent. Rich in B vitamins. Generally safe in normal amounts."
     },
     {
       id:6,
-      name:"Butter"
+      name:"Butter",
+      type:"caution",
+      description:"High in saturated fat. Can raise cholesterol levels. Use sparingly."
     },
     {
       id:7,
-      name:"Oil"
+      name:"Oil",
+      type:"caution",
+      description:"High calorie, high fat content. Choose healthy oils like olive oil."
     },
     {
       id:8,
-      name:"Eggs"
+      name:"Eggs",
+      type:"safe",
+      description:"Excellent protein source with essential amino acids. Rich in choline and lutein."
     },
     {
       id:9,
-      name:"Milk"
+      name:"Milk",
+      type:"safe",
+      description:"Good source of calcium and vitamin D. Avoid if lactose intolerant."
     },
     {
       id:10,
-      name:"Milk Powder"
+      name:"Milk Powder",
+      type:"safe",
+      description:"Concentrated milk product with calcium and protein. More shelf-stable than fresh milk."
     },
     {
       id:11,
-      name:"Baking Powder"
+      name:"Baking Powder",
+      type:"risk",
+      description:"Chemical leavening agent. Contains aluminum compounds - may accumulate in body with high intake."
     },
     {
       id:12,
-      name:"Baking Soda"
+      name:"Baking Soda",
+      type:"risk",
+      description:"Sodium bicarbonate. High sodium content. Can affect electrolyte balance if overconsumed."
     },
     {
       id:13,
-      name:"Emulsifier"
+      name:"Emulsifier",
+      type:"risk",
+      description:"Synthetic additive to improve texture. May disrupt gut bacteria and intestinal inflammation."
     },
     {
       id:14,
-      name:"Potassium Sorbate (Preservative)"
+      name:"Potassium Sorbate",
+      type:"risk",
+      description:"Synthetic preservative. May cause allergic reactions in sensitive individuals. Linked to metabolic issues."
     },
     {
       id:15,
-      name:"Preservative"
+      name:"Preservative",
+      type:"risk",
+      description:"Chemical additive to extend shelf life. May contain harmful compounds like TBHQ or BHA."
     },
     {
       id:16,
-      name:"Dough Conditioner"
+      name:"Dough Conditioner",
+      type:"risk",
+      description:"Industrial additive to improve dough handling. Contains chemicals like potassium iodate - health risks unclear."
     },
     {
       id:17,
-      name:"Flavoring"
+      name:"Flavoring",
+      type:"risk",
+      description:"Artificial flavoring agents. May contain undisclosed ingredients. Some linked to neurotoxicity."
     },
     {
       id:18,
-      name:"Vanilla Extract"
+      name:"Vanilla Extract",
+      type:"safe",
+      description:"Natural flavoring from vanilla pods. Contains antioxidants. Safe in normal culinary amounts."
     },
     {
       id:19,
-      name:"Cocoa Powder"
+      name:"Cocoa Powder",
+      type:"safe",
+      description:"Rich in antioxidants and magnesium. Lower sugar varieties are healthier."
     },
     {
       id:20,
-      name:"Honey"
+      name:"Honey",
+      type:"safe",
+      description:"Natural sweetener with antimicrobial properties. High in antioxidants. Not suitable for infants under 1 year."
     },
     {
       id:21,
-      name:"Walnut"
+      name:"Walnut",
+      type:"safe",
+      description:"Excellent source of omega-3 fatty acids. May improve heart and brain health."
     },
     {
       id:22,
-      name:"Almond"
+      name:"Almond",
+      type:"safe",
+      description:"High in protein and healthy fats. Good for heart health. May cause allergies."
     },
     {
       id:23,
-      name:"Cashew"
+      name:"Cashew",
+      type:"safe",
+      description:"Rich in minerals like copper and magnesium. Lower fat than other nuts. May cause allergies."
     },
     {
       id:24,
-      name:"Peanut"
+      name:"Peanut",
+      type:"safe",
+      description:"Good protein source and healthy fats. Common allergen - check for allergies."
     },
     {
       id:25,
-      name:"Raisin"
+      name:"Raisin",
+      type:"caution",
+      description:"Natural sugars and fiber. Good for digestion but high in concentrated sugars."
     },
     {
       id:26,
-      name:"Cranberry"
+      name:"Cranberry",
+      type:"safe",
+      description:"Rich in antioxidants and vitamin C. May help prevent urinary tract infections."
     },
     {
       id:27,
-      name:"Blackcurrant"
+      name:"Blackcurrant",
+      type:"safe",
+      description:"High in vitamin C and antioxidants. May support immune function and eye health."
     },
     {
       id:28,
-      name:"Oats"
+      name:"Oats",
+      type:"safe",
+      description:"Excellent source of soluble fiber. May help lower cholesterol. Safe for most except celiac disease sufferers."
     },
     {
       id:29,
-      name:"Rye Flour"
+      name:"Rye Flour",
+      type:"safe",
+      description:"Contains gluten but slightly lower than wheat. Good source of fiber and minerals."
     },
     {
       id:30,
-      name:"Cornmeal"
+      name:"Cornmeal",
+      type:"safe",
+      description:"Good source of carbohydrates. May be genetically modified - choose organic if concerned."
     },
     {
       id:31,
-      name:"Syrup"
+      name:"Syrup",
+      type:"caution",
+      description:"Concentrated sugar source. High glycemic index. Excessive consumption increases diabetes risk."
     },
     {
       id:32,
-      name:"Chocolate Chips"
+      name:"Chocolate Chips",
+      type:"caution",
+      description:"High in sugar and fat. May contain additives. Choose dark chocolate with high cocoa content."
     },
     {
       id:33,
-      name:"Cinnamon"
+      name:"Cinnamon",
+      type:"safe",
+      description:"Natural spice with anti-inflammatory properties. May help regulate blood sugar levels."
     },
     {
       id:34,
-      name:"Ginger Powder"
+      name:"Ginger Powder",
+      type:"safe",
+      description:"Aids digestion and reduces nausea. Anti-inflammatory properties. Safe in normal culinary amounts."
     },
     {
       id:35,
-      name:"Cardamom"
+      name:"Cardamom",
+      type:"safe",
+      description:"Natural spice with digestive benefits. Antioxidant properties. Safe in normal amounts."
+    },
+    {
+      id:36,
+      name:"MSG (Monosodium Glutamate)",
+      type:"risk",
+      description:"Flavor enhancer commonly used in processed foods. May cause sensitivity in some people. Very high sodium content per serving. Linked to headaches and allergic reactions."
+    },
+    {
+      id:37,
+      name:"TBHQ (Tertiary Butylhydroquinone)",
+      type:"risk",
+      description:"Synthetic antioxidant and preservative. Linked to potential health risks with high consumption. Common in processed foods, oils, and instant noodles. May cause allergic reactions and breathing issues."
+    },
+    {
+      id:38,
+      name:"Sodium Carbonate",
+      type:"risk",
+      description:"Chemical additive used in instant noodles to improve texture. Highly alkaline compound. May cause digestive issues and nutrient absorption problems."
+    },
+    {
+      id:39,
+      name:"Palm Oil",
+      type:"caution",
+      description:"High in saturated fat which can raise cholesterol. Environmental and sustainability concerns. May contribute to heart disease."
+    },
+    {
+      id:40,
+      name:"Tapioca Starch",
+      type:"caution",
+      description:"Refined carbohydrate with minimal nutritional value. High glycemic index. Can spike blood sugar levels."
+    },
+    {
+      id:41,
+      name:"BHA (Butylated Hydroxyanisole)",
+      type:"risk",
+      description:"Synthetic preservative banned in EU and Japan. Classified as possible human carcinogen. May cause allergic reactions."
+    },
+    {
+      id:42,
+      name:"Sodium Nitrite",
+      type:"risk",
+      description:"Preservative used in processed meats. Can form carcinogenic compounds (nitrosamines) in the stomach. Linked to increased cancer risk."
+    },
+    {
+      id:43,
+      name:"High Fructose Corn Syrup",
+      type:"risk",
+      description:"Processed sweetener linked to obesity and type 2 diabetes. May increase triglycerides and fatty liver disease. More harmful than regular sugar."
     }
   ],
   dish_nutrients: [
@@ -376,7 +518,6 @@ const data = {
     { dish_id: 3, nutrient_id: 3, amount: 52, unit: "g" },
     { dish_id: 3, nutrient_id: 4, amount: 2.5, unit: "g" },
     { dish_id: 3, nutrient_id: 5, amount: 270, unit: "kcal" },
-    { dish_id: 3, nutrient_id: 5, amount: 15, unit: "g" },
     { dish_id: 3, nutrient_id: 21, amount: 320, unit: "mg" },
     { dish_id: 3, nutrient_id: 18, amount: 1.8, unit: "mg" },
     // Almond Biscuits (dish_id: 4)
@@ -407,7 +548,34 @@ const data = {
     // Butter (food_id: 4)
     { food_id: 4, ingredient_id: 6, amount: 250, unit: "g" },
     // Milk (food_id: 5)
-    { food_id: 5, ingredient_id: 9, amount: 1000, unit: "ml" }
+    { food_id: 5, ingredient_id: 9, amount: 1000, unit: "ml" },
+    // Instant Noodles (food_id: 6)
+    { food_id: 6, ingredient_id: 2, amount: 85, unit: "g" },
+    { food_id: 6, ingredient_id: 39, amount: 15, unit: "g" },
+    { food_id: 6, ingredient_id: 40, amount: 8, unit: "g" },
+    { food_id: 6, ingredient_id: 4, amount: 2, unit: "g" },
+    { food_id: 6, ingredient_id: 36, amount: 0.5, unit: "g" },
+    { food_id: 6, ingredient_id: 38, amount: 1, unit: "g" },
+    { food_id: 6, ingredient_id: 3, amount: 4, unit: "g" },
+    { food_id: 6, ingredient_id: 37, amount: 0.1, unit: "g" },
+    // Processed Cheese Slices (food_id: 7)
+    { food_id: 7, ingredient_id: 9, amount: 100, unit: "ml" },
+    { food_id: 7, ingredient_id: 4, amount: 3, unit: "g" },
+    { food_id: 7, ingredient_id: 13, amount: 2, unit: "g" },
+    { food_id: 7, ingredient_id: 15, amount: 1, unit: "g" },
+    { food_id: 7, ingredient_id: 41, amount: 0.05, unit: "g" },
+    { food_id: 7, ingredient_id: 38, amount: 0.5, unit: "g" },
+    // Canned Spam (food_id: 8)
+    { food_id: 8, ingredient_id: 4, amount: 1.5, unit: "g" },
+    { food_id: 8, ingredient_id: 42, amount: 0.08, unit: "g" },
+    { food_id: 8, ingredient_id: 3, amount: 3, unit: "g" },
+    { food_id: 8, ingredient_id: 15, amount: 0.5, unit: "g" },
+    // Flavored Potato Chips (food_id: 9)
+    { food_id: 9, ingredient_id: 7, amount: 20, unit: "g" },
+    { food_id: 9, ingredient_id: 4, amount: 5, unit: "g" },
+    { food_id: 9, ingredient_id: 36, amount: 0.3, unit: "g" },
+    { food_id: 9, ingredient_id: 17, amount: 0.2, unit: "g" },
+    { food_id: 9, ingredient_id: 43, amount: 8, unit: "g" }
   ]
 };
 

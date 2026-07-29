@@ -63,6 +63,8 @@ const createIngredientsTable = async() =>{
         CREATE TABLE IF NOT EXISTS ingredients (
             id SERIAL PRIMARY KEY,
             name VARCHAR(255) NOT NULL,
+            type VARCHAR(50),
+            description TEXT,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     `
@@ -79,10 +81,10 @@ const createIngredientsTable = async() =>{
 const seedIngredientsTable = async()=>{
     await createIngredientsTable()
 
-    const insertQuery = 'INSERT INTO ingredients (name) VALUES ($1)'
+    const insertQuery = 'INSERT INTO ingredients (name, type, description) VALUES ($1, $2, $3)'
 
     for (const ingredient of ingredients){
-        const values = [ingredient.name]
+        const values = [ingredient.name, ingredient.type, ingredient.description]
         try {
             await pool.query(insertQuery, values)
             console.log(`✅ ${ingredient.name} added successfully`)
