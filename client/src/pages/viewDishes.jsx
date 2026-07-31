@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Card from '../components/Card.jsx'
-import './viewRecipes.css'
-import './recipeDetail.css'
+import './viewDishes.css'
+import './dishDetail.css'
 import FilterSidebar from '../components/FilterSidebar.jsx'
 
 const ViewDishes = ({ title, data, API_URL }) => {

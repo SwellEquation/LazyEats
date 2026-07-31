@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import './recipeDetail.css'
-import './editRecipe.css'
+import './dishDetail.css'
+import './editDish.css'
 
 const EditDish = ({ title, data, API_URL }) => {
   const { id } = useParams()
