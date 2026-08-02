@@ -268,6 +268,8 @@ const seedFoodIngredients = async() => {
 }
 
 
+
+
 // 按你现在的设计，一条 diet_record 记录只能关联一个 dish 或一个 food（因为字段里只有一个 dish_id 和一个 food_id）。
 
 // 如果一条记录要关联多个菜品或多个食物，那就需要改设计了
