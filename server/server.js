@@ -29,10 +29,17 @@ app.use(passport.initialize())
 app.use(passport.session())
 passport.use(GitHub)
 passport.serializeUser((user, done) => {
-    done(null, user)
+    done(null, user.id)
 })
-passport.deserializeUser((user, done) => {
-    done(null, user)
+passport.deserializeUser(async (id, done) => {
+    try {
+        const { pool } = await import('./config/database.js')
+        const result = await pool.query('SELECT * FROM users WHERE id = $1', [id])
+        const user = result.rows[0]
+        done(null, user)
+    } catch (err) {
+        done(err)
+    }
 })
 
 
