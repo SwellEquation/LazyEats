@@ -11,8 +11,10 @@ import './App.css'
 const App = () => {
   const [dishes, setDishes] = useState([]);
   const [foods, setFoods] = useState([]);
-  const API_URL = 'http://localhost:3001'
-
+  // const API_URL = 'http://localhost:3001'
+  // const API_URL_PRODUCTION = 'https://lazyeatserver.onrender.com'
+  
+  const API_URL = import.meta.env.PROD ? 'https://lazyeatserver.onrender.com' : 'http://localhost:3001'
   useEffect(() => {
     const fetchDishes = async () => {
       const response = await fetch(`${API_URL}/api/dishs`)

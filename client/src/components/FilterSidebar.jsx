@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import './FilterSidebar.css'
 
-export default function FilterSidebar({ onApplyFilters }) {
+export default function FilterSidebar({ onApplyFilters, API_URL }) {
   const [cookTime, setCookTime] = useState(null)
   const [budget, setBudget] = useState(20)
 
@@ -17,7 +17,7 @@ export default function FilterSidebar({ onApplyFilters }) {
     if (budget) params.append('budget', budget)
     
     try {
-      const res = await fetch(`http://localhost:3001/api/dishs/filter?${params}`)
+      const res = await fetch(`${API_URL}/api/dishs/filter?${params}`)
       const data = await res.json()
       onApplyFilters(data)
     } catch (err) {
