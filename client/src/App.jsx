@@ -96,7 +96,7 @@ const App = () => {
     },
     {
       path: '/tracker',
-      element: <Tracker/>
+      element: <Tracker API_URL={API_URL} user={user} />
 
     }
   ])

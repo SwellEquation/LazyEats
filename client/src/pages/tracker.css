@@ -1,0 +1,118 @@
+/* box below header — same look as calendar-header */
+.tracker-box {
+  margin-top: 12px;
+  margin-left: 5%;
+  margin-right: 5%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 14px 18px;
+  background: #ffffff;
+  border-bottom: 0.5px solid #c8e6c9;
+  border-radius: 6px;
+}
+
+.tracker-box-label {
+  font-size: 15px;
+  font-weight: 500;
+  color: #27500a;
+}
+
+.tracker-box-value {
+  color: #639922;
+  font-weight: 600;
+}
+
+.tracker-add-btn {
+  background: #1e5c2e;
+  border: none;
+  color: #ffffff;
+  font-size: 20px;
+  line-height: 1;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.tracker-add-btn:hover {
+  background: #2c7a41;
+}
+
+/* modal */
+.tracker-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.tracker-modal {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  width: 90%;
+  max-width: 340px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.tracker-modal-title {
+  margin: 0 0 4px;
+  font-size: 18px;
+  color: #27500a;
+}
+
+.tracker-modal-date {
+  margin: 0 0 16px;
+  font-size: 13px;
+  color: #97c459;
+}
+
+.tracker-modal-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  font-size: 15px;
+  border: 1px solid #c8e6c9;
+  border-radius: 8px;
+  outline: none;
+}
+
+.tracker-modal-input:focus {
+  border-color: #639922;
+}
+
+.tracker-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.tracker-modal-cancel,
+.tracker-modal-save {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+}
+
+.tracker-modal-cancel {
+  background: #eaf3de;
+  color: #3b6d11;
+}
+
+.tracker-modal-save {
+  background: #1e5c2e;
+  color: #ffffff;
+}
+
+.tracker-modal-save:hover {
+  background: #2c7a41;
+}

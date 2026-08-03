@@ -42,7 +42,7 @@ export default function CalendarHeader({ selectedDate, onSelectDate }) {
   return (
     <div className="calendar-header">
       <button className="calendar-arrow" onClick={goToPrevWeek} aria-label="Previous week">
-        <i className="ti ti-chevron-left"></i>
+        &#8249;
       </button>
 
       <div className="calendar-days">
@@ -53,13 +53,13 @@ export default function CalendarHeader({ selectedDate, onSelectDate }) {
             onClick={() => onSelectDate && onSelectDate(day)}
           >
             <span className="calendar-day-label">{DAY_LABELS[day.getDay()]}</span>
-            <span className="calendar-day-num">{day.getDate()}</span>
+            <span className="calendar-day-num">{isSameDay(day, today) ? 'Today' : day.getDate()}</span>
           </div>
         ))}
       </div>
 
       <button className="calendar-arrow" onClick={goToNextWeek} aria-label="Next week">
-        <i className="ti ti-chevron-right"></i>
+        &#8250;
       </button>
     </div>
   )

@@ -1,11 +1,145 @@
+import { useState, useEffect } from "react";
 import CalendarHeader from "../components/CalendarHeader";
+import "./tracker.css";
 
-const Tracker = ()=>{
-    return (
-        <div>
-            <CalendarHeader/>
-        </div>
-    )
+// format Date -> 'YYYY-MM-DD' (local, no UTC shift)
+function toDateKey(date) {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
 }
 
-export default Tracker
+function formatLabel(date) {
+  return date.toLocaleDateString(undefined, {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+  });
+}
+
+const Tracker = ({ API_URL, user }) => {
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [weights, setWeights] = useState([]); // records for user
+  const [showModal, setShowModal] = useState(false);
+  const [weightInput, setWeightInput] = useState("");
+
+  const userId = user && user.id;
+
+  // fetch all weight records for user
+  useEffect(() => {
+    if (!userId) return;
+    const fetchWeights = async () => {
+      try {
+        const res = await fetch(`${API_URL}/api/weights/${userId}`, {
+          credentials: "include",
+        });
+        const data = await res.json();
+        setWeights(Array.isArray(data) ? data : []);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchWeights();
+  }, [API_URL, userId]);
+
+  const dateKey = toDateKey(selectedDate);
+  const recordForDate = weights.find(
+    (w) => toDateKey(new Date(w.recorded_date)) === dateKey
+  );
+
+  const openModal = () => {
+    setWeightInput(recordForDate ? String(recordForDate.weight) : "");
+    setShowModal(true);
+  };
+
+  const closeModal = () => setShowModal(false);
+
+  const saveWeight = async (e) => {
+    e.preventDefault();
+    if (!userId || weightInput === "") return;
+    try {
+      const res = await fetch(`${API_URL}/api/weights`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({
+          user_id: userId,
+          weight: Number(weightInput),
+          recorded_date: dateKey,
+        }),
+      });
+      const saved = await res.json();
+      // upsert into local state
+      setWeights((prev) => {
+        const rest = prev.filter(
+          (w) => toDateKey(new Date(w.recorded_date)) !== dateKey
+        );
+        return [...rest, saved];
+      });
+      closeModal();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  return (
+    <div>
+      <CalendarHeader
+        selectedDate={selectedDate}
+        onSelectDate={setSelectedDate}
+      />
+
+      <div className="tracker-box">
+        <span className="tracker-box-label">
+          Weight Record
+          {recordForDate && (
+            <span className="tracker-box-value"> · {recordForDate.weight} kg</span>
+          )}
+        </span>
+        <button
+          className="tracker-add-btn"
+          onClick={openModal}
+          aria-label="Add weight record"
+        >
+          +
+        </button>
+      </div>
+
+      {showModal && (
+        <div className="tracker-modal-overlay" onClick={closeModal}>
+          <div className="tracker-modal" onClick={(e) => e.stopPropagation()}>
+            <h3 className="tracker-modal-title">Weight Record</h3>
+            <p className="tracker-modal-date">{formatLabel(selectedDate)}</p>
+            <form onSubmit={saveWeight}>
+              <input
+                className="tracker-modal-input"
+                type="number"
+                step="0.1"
+                min="0"
+                placeholder="Enter weight (kg)"
+                value={weightInput}
+                onChange={(e) => setWeightInput(e.target.value)}
+                autoFocus
+              />
+              <div className="tracker-modal-actions">
+                <button
+                  type="button"
+                  className="tracker-modal-cancel"
+                  onClick={closeModal}
+                >
+                  Cancel
+                </button>
+                <button type="submit" className="tracker-modal-save">
+                  Save
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Tracker;
