@@ -2,11 +2,14 @@ import GitHubStrategy from 'passport-github2'
 import {pool} from '../config/database.js'
 
 
+const isProd = process.env.NODE_ENV === 'production'
+
 const options = {
     clientID: process.env.GITHUB_CLIENT_ID,
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
-    // callbackURL: 'http://localhost:3001/auth/github/callback'
-    callbackURL: 'https://lazyeatserver.onrender.com/auth/github/callback'
+    callbackURL: isProd
+        ? 'https://lazyeatserver.onrender.com/auth/github/callback'
+        : 'http://localhost:3001/auth/github/callback'
 }
 
 

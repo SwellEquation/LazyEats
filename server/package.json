@@ -17,6 +17,7 @@
   "type": "module",
   "scripts": {
     "start": "node --require dotenv/config server.js",
+    "dev": "nodemon --require dotenv/config server.js",
     "reset": "cd config && node --require dotenv/config reset.js"
   },
   "keywords": [],

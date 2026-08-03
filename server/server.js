@@ -13,6 +13,11 @@ import passport from 'passport'
 import session from 'express-session'
 import { GitHub } from './config/auth.js'
 
+const isProd = process.env.NODE_ENV === 'production'
+const CLIENT_URL = isProd
+    ? 'https://lazyeatclient.onrender.com'
+    : 'http://localhost:5173'
+
 // create express app
 const app = express()
 app.set('trust proxy', 1)
@@ -21,13 +26,13 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
     cookie: {
-        secure: true,
-        sameSite: 'none'
+        secure: isProd,
+        sameSite: isProd ? 'none' : 'lax'
     }
 }))
 app.use(express.json())
 app.use(cors({
-    origin: 'https://lazyeatclient.onrender.com',
+    origin: CLIENT_URL,
     methods: 'GET,POST,PUT,DELETE,PATCH',
     credentials: true
 }))
