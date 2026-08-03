@@ -10,6 +10,12 @@ function toDateKey(date) {
   return `${y}-${m}-${d}`;
 }
 
+// record.recorded_date comes as ISO string (e.g. '2026-08-03T00:00:00.000Z');
+// slice the date part directly to avoid timezone shift from new Date()
+function recordKey(recordedDate) {
+  return String(recordedDate).slice(0, 10);
+}
+
 function formatLabel(date) {
   return date.toLocaleDateString(undefined, {
     weekday: "short",
@@ -27,7 +33,7 @@ const Tracker = ({ API_URL, user, weights = [], setWeights }) => {
 
   const dateKey = toDateKey(selectedDate);
   const recordForDate = weights.find(
-    (w) => toDateKey(new Date(w.recorded_date)) === dateKey
+    (w) => recordKey(w.recorded_date) === dateKey
   );
 
   const openModal = () => {
@@ -55,7 +61,7 @@ const Tracker = ({ API_URL, user, weights = [], setWeights }) => {
       // upsert into local state
       setWeights((prev) => {
         const rest = prev.filter(
-          (w) => toDateKey(new Date(w.recorded_date)) !== dateKey
+          (w) => recordKey(w.recorded_date) !== dateKey
         );
         return [...rest, saved];
       });
