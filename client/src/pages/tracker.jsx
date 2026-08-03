@@ -1,6 +1,6 @@
 import CalendarHeader from "../components/CalendarHeader";
 
-const tracker = ()=>{
+const Tracker = ()=>{
     return (
         <div>
             <CalendarHeader/>
@@ -8,4 +8,4 @@ const tracker = ()=>{
     )
 }
 
-export default tracker
+export default Tracker
