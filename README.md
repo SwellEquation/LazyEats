@@ -1,7 +1,7 @@
 # LazyEat
 
 CodePath WEB103 Final Project
-
+link:https://lazyeatclient.onrender.com
 Designed and developed by: Fabian, Liam, Raheem, Steph
 
 
@@ -40,6 +40,18 @@ Click into any recipe from the list to see its full detail page, including cook 
 ### ✅View Food and its ingredients
 We can search food and find its ingredients. Those ingredients are highlighted if they are not healthy.
 ![](FoodIngredient.gif)
+
+### ✅Github authentication
+user need to log in via github first
+![](authentication.gif)
+
+### ✅Update the daily weight reocord 
+We can choose the date and update the weight
+![](updateWeight.gif)
+
+### ✅View profile page
+We can see our github name and avatar and we can see the grpah of our weights change.
+![](ProfilePage.gif)
 
 ### ✅View All Recipes
 
