@@ -7,6 +7,7 @@ import dishNutrientRoute from './routes/dish-nutrients.js'
 import foodRoute from './routes/foodRoute.js'
 import foodIngredientRoute from './routes/food-ingredients.js'
 import authRoute from './routes/auth.js'
+import weightRoute from './routes/users-weights.js'
 
 import passport from 'passport'
 import session from 'express-session'
@@ -59,6 +60,7 @@ app.use('/api/dish-nutrients', dishNutrientRoute)
 app.use('/api/foods',  foodRoute)
 app.use('/api/food-ingredients',foodIngredientRoute)
 app.use('/auth',authRoute)
+app.use('/api/weights', weightRoute)
 
 const PORT = process.env.PORT || 3001
 

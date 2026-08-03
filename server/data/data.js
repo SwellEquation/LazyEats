@@ -576,6 +576,15 @@ const data = {
     { food_id: 9, ingredient_id: 36, amount: 0.3, unit: "g" },
     { food_id: 9, ingredient_id: 17, amount: 0.2, unit: "g" },
     { food_id: 9, ingredient_id: 43, amount: 8, unit: "g" }
+  ],
+  weight_records: [
+    { user_id: 1, weight: 70.5, recorded_date: "2026-07-28" },
+    { user_id: 1, weight: 70.2, recorded_date: "2026-07-29" },
+    { user_id: 1, weight: 70.0, recorded_date: "2026-07-30" },
+    { user_id: 1, weight: 69.8, recorded_date: "2026-07-31" },
+    { user_id: 1, weight: 69.6, recorded_date: "2026-08-01" },
+    { user_id: 1, weight: 69.5, recorded_date: "2026-08-02" },
+    { user_id: 1, weight: 69.3, recorded_date: "2026-08-03" }
   ]
 };
 

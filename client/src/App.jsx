@@ -8,6 +8,7 @@ import CreateDish from './pages/createDish.jsx'
 import FoodIngredientSearch from './pages/FoodIngredientSearch.jsx'
 import './App.css'
 import Login from './pages/Login.jsx'
+import tracker from './pages/tracker.jsx'
 
 const App = () => {
   const [dishes, setDishes] = useState([]);
@@ -92,6 +93,11 @@ const App = () => {
       path: '/foods-nutrients',
       element: user && user.id ?
         <FoodIngredientSearch data={foods} API_URL={API_URL} /> : <Login API_URL={API_URL} />
+    },
+    {
+      path: '/tracker',
+      element: <tracker/>
+
     }
   ])
 

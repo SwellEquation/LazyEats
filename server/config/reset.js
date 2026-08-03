@@ -1,7 +1,7 @@
 import {pool} from './database.js'
 import './dotenv.js'
 import { data } from '../data/data.js'
-const { dishes, nutrients, foods, ingredients, dish_nutrients, food_ingredients } = data 
+const { dishes, nutrients, foods, ingredients, dish_nutrients, food_ingredients, weight_records = [] } = data
 
 //const { dishes, nutrients, foods, ingredients } = rawData
 const dropAllTables = async () => {
@@ -191,6 +191,43 @@ const createUsersTable = async () => {
     }
 }
 
+const createWeightRecordsTable = async () => {
+  const createWeightRecordsTableQuery = `
+      CREATE TABLE IF NOT EXISTS weight_records (
+          id SERIAL PRIMARY KEY,
+          user_id INT NOT NULL,
+          weight NUMERIC(5,2) NOT NULL,
+          recorded_date DATE NOT NULL DEFAULT CURRENT_DATE,
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+          FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE,
+          UNIQUE (user_id, recorded_date)
+      )
+  `
+    try {
+        const res = await pool.query(createWeightRecordsTableQuery)
+        console.log('✅ weight_records table created successfully')
+    }
+    catch (error) {
+        console.error('⚠️ error creating weight_records table', error)
+    }
+}
+
+const seedWeightRecordsTable = async () => {
+    await createWeightRecordsTable()
+
+    const insertQuery = 'INSERT INTO weight_records (user_id, weight, recorded_date) VALUES ($1, $2, $3)'
+
+    for (const wr of weight_records) {
+        const values = [wr.user_id, wr.weight, wr.recorded_date]
+        try {
+            await pool.query(insertQuery, values)
+            console.log(`✅ weight_record for user ${wr.user_id} added successfully`)
+        } catch (err) {
+            console.error('⚠️ error inserting weight_records', err)
+        }
+    }
+}
+
 const createFoodIngredientsTable = async () => {
   const createFoodIngredientsTableQuery = `
       CREATE TABLE IF NOT EXISTS food_ingredients (
@@ -275,7 +312,7 @@ const seedFoodIngredients = async() => {
 // 如果一条记录要关联多个菜品或多个食物，那就需要改设计了
 
 const resetDatabase = async () => {
-  await dropAllTables()
+//   await dropAllTables()
 
   await seedIngredientsTable()
   await seedNutrients()
@@ -283,6 +320,7 @@ const resetDatabase = async () => {
   await seedDishesTable()
 
   await createUsersTable()
+  await seedWeightRecordsTable()
 
   await seedDishNutrients()
   await seedFoodIngredients()
