@@ -57,6 +57,10 @@ const Tracker = ({ API_URL, user, weights = [], setWeights }) => {
           recorded_date: dateKey,
         }),
       });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || `Save failed (${res.status})`);
+      }
       const saved = await res.json();
       // upsert into local state
       setWeights((prev) => {
