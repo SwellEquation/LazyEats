@@ -9,10 +9,12 @@ import FoodIngredientSearch from './pages/FoodIngredientSearch.jsx'
 import './App.css'
 import Login from './pages/Login.jsx'
 import Tracker from './pages/tracker.jsx'
+import Profile from './pages/profile.jsx'
 
 const App = () => {
   const [dishes, setDishes] = useState([]);
   const [foods, setFoods] = useState([]);
+  const [weights, setWeights] = useState([]);
   // const API_URL = 'http://localhost:3001'
   // const API_URL_PRODUCTION = 'https://lazyeatserver.onrender.com'
   const [user, setUser] = useState()
@@ -68,6 +70,21 @@ const App = () => {
     fetchData()
   }, [])
 
+  // weights need userId — fetch after user known
+  useEffect(() => {
+    if (!user || !user.id) return
+    const fetchWeights = async () => {
+      try {
+        const res = await fetch(`${API_URL}/api/weights/${user.id}`, { credentials: 'include' })
+        const data = await res.json()
+        setWeights(Array.isArray(data) ? data : [])
+      } catch (err) {
+        console.error(err)
+      }
+    }
+    fetchWeights()
+  }, [user])
+
   let element = useRoutes([
     {
       path: '/',
@@ -96,8 +113,12 @@ const App = () => {
     },
     {
       path: '/tracker',
-      element: <Tracker API_URL={API_URL} user={user} />
+      element: <Tracker API_URL={API_URL} user={user} weights={weights} setWeights={setWeights} />
 
+    },
+    {
+      path: '/profile',
+      element: <Profile API_URL={API_URL} user={user} weights={weights} />
     }
   ])
 

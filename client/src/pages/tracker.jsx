@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import CalendarHeader from "../components/CalendarHeader";
 import "./tracker.css";
 
@@ -18,30 +18,12 @@ function formatLabel(date) {
   });
 }
 
-const Tracker = ({ API_URL, user }) => {
+const Tracker = ({ API_URL, user, weights = [], setWeights }) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [weights, setWeights] = useState([]); // records for user
   const [showModal, setShowModal] = useState(false);
   const [weightInput, setWeightInput] = useState("");
 
   const userId = user && user.id;
-
-  // fetch all weight records for user
-  useEffect(() => {
-    if (!userId) return;
-    const fetchWeights = async () => {
-      try {
-        const res = await fetch(`${API_URL}/api/weights/${userId}`, {
-          credentials: "include",
-        });
-        const data = await res.json();
-        setWeights(Array.isArray(data) ? data : []);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetchWeights();
-  }, [API_URL, userId]);
 
   const dateKey = toDateKey(selectedDate);
   const recordForDate = weights.find(
