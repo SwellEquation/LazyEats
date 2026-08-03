@@ -8,7 +8,7 @@ import CreateDish from './pages/createDish.jsx'
 import FoodIngredientSearch from './pages/FoodIngredientSearch.jsx'
 import './App.css'
 import Login from './pages/Login.jsx'
-import tracker from './pages/tracker.jsx'
+import Tracker from './pages/tracker.jsx'
 
 const App = () => {
   const [dishes, setDishes] = useState([]);
@@ -96,7 +96,7 @@ const App = () => {
     },
     {
       path: '/tracker',
-      element: <tracker/>
+      element: <Tracker/>
 
     }
   ])
