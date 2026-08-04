@@ -125,7 +125,7 @@ const App = () => {
   return (
     <div className='app'>
 
-      <Header />
+      <Header isLoggedIn={Boolean(user && user.id)} user={user} />
 
       { element }
 

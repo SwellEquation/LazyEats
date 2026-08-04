@@ -27,6 +27,7 @@ const ViewDishes = ({ title, data, API_URL }) => {
       </div>
 
       <div className='content-area'>
+          <h1 className='home-title'>Lazy Eat</h1>
           {loading ? (
             <div>Loading...</div>  // 或 <Spinner /> component
           ) : (

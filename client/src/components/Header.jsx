@@ -8,12 +8,16 @@ const navItems = [
   { label: 'Profile', path: '/profile' },
 ]
 
-function Header() {
+function Header({ isLoggedIn, user }) {
   const location = useLocation()
+  const avatarUrl = user?.avatarurl || user?.avatar_url || user?.avatarUrl
+  const avatarAlt = user?.username ? `${user.username} avatar` : 'User avatar'
 
   return (
-    <div className="topbar">
-      <Link to='/'><div className="logo">Lazy<span>Eats</span></div></Link>
+    <div className={`topbar ${!isLoggedIn ? 'logged-out' : ''}`}>
+      <Link to='/' className="logo-link">
+        <div className="logo">Lazy<span> Eat</span></div>
+      </Link>
       <div className="nav">
         {navItems.map((item) => (
           <Link
@@ -25,7 +29,9 @@ function Header() {
           </Link>
         ))}
       </div>
-      <div className="avatar">L</div>
+      {isLoggedIn && avatarUrl && (
+        <img className="avatar" src={avatarUrl} alt={avatarAlt} referrerPolicy="no-referrer" />
+      )}
     </div>
   )
 }
