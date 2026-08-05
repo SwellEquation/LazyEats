@@ -1,0 +1,56 @@
+.view-recipes {
+    display: flex;
+    flex-direction: row;
+    gap: 0px;
+    padding: 20px;
+}
+
+.filter-sidebar {
+    width: 500px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 20px;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.content-area {
+    flex: 1;
+}
+
+.home-title {
+    margin: 8px 0 20px;
+    text-align: center;
+    font-size: clamp(28px, 5vw, 42px);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #173404;
+    text-shadow: 0 2px 0 #9ed989;
+    transform: translateX(-210px);
+
+}
+
+.card-list {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: flex-start;
+    align-content: flex-start;
+}
+
+@media (max-width: 768px) {
+    .view-recipes {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .filter-sidebar {
+        width: 100%;
+        position: static;
+    }
+}

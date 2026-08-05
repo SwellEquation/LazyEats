@@ -3,7 +3,10 @@
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "express-session": "^1.19.0",
     "nodemon": "^3.1.14",
+    "passport": "^0.7.0",
+    "passport-github2": "^0.1.12",
     "pg": "^8.22.0"
   },
   "name": "server",
@@ -12,12 +15,11 @@
   "main": "server.js",
   "license": "ISC",
   "type": "module",
-  "devDependencies": {},
   "scripts": {
-    "start": "nodemon --require dotenv/config server.js",
+    "start": "node --require dotenv/config server.js",
+    "dev": "nodemon --require dotenv/config server.js",
     "reset": "cd config && node --require dotenv/config reset.js"
   },
   "keywords": [],
   "author": ""
-
 }

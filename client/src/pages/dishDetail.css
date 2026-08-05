@@ -1,0 +1,119 @@
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* height: 100vh; */
+    margin-top: 30px;
+}
+
+.recipe-detail {
+    width: 400px;
+    margin: 20px auto;
+}
+
+.recipe-detail ul {
+    margin: 10px 0;
+    padding-left: 18px;
+}
+
+.recipe-detail li {
+    font-size: 13px;
+    color: #639922;
+    margin: 2px 0;
+}
+
+.card-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 14px;
+    /* justify-content: space-between; */
+    flex-direction: column;
+}
+
+.btn {
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 8px;
+    padding: 6px 14px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.btn-update {
+    background: #ffffff;
+    color: black;
+    border: 1px solid #639922;
+    text-align: center;
+
+}
+
+.btn-delete {
+    background: #ffffff;
+    color: #b3261e;
+    border: 1px solid #b3261e;
+}
+
+/* display the nutrients */
+.nutrients-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.nutrient-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+.nutrient-value {
+  text-align: right;
+  color: #666;
+}
+
+.dish-image {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+
+.dish-section {
+  margin-top: 14px;
+  border-top: 1px solid #c8e6c9;
+  padding-top: 10px;
+}
+
+.dish-section h4 {
+  font-size: 13px;
+  color: #173404;
+  margin: 0 0 8px;
+}
+
+.dish-ing-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.dish-ing-tag {
+  display: inline-block;
+  font-size: 13px;
+  border-radius: 999px;
+  padding: 4px 10px;
+  background-color: #eaf3de;
+  border: 1px solid #97C459;
+  color: #27500a;
+}
+
+.dish-instructions-text {
+  font-size: 13px;
+  color: #333;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  max-height: 200px;
+  overflow-y: auto;
+  margin: 0;
+}

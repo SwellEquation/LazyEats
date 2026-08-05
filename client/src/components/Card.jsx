@@ -11,7 +11,7 @@ const Card = ({ id, title, cook_time_mins, est_cost }) => {
       <div className="card-bottom">
         <p>{'Cook time: ' + cook_time_mins + ' mins'}</p>
         <p>{'Est. cost: $' + est_cost}</p>
-        <Link to={'/recipes/' + id}>Read More →</Link>
+        <Link to={'/dishes/' + id}>Read More →</Link>
       </div>
     </div>
   )
