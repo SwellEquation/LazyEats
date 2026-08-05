@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import ErrorMessage from './ErrorMessage.jsx'
 import './FilterSidebar.css'
 
 export default function FilterSidebar({ onApplyFilters, API_URL }) {
   const [cookTime, setCookTime] = useState(null)
   const [budget, setBudget] = useState(20)
+  const [error, setError] = useState(null)
 
   const cookTimeOptions = [
     { label: 'Any', value: null },
@@ -19,10 +21,14 @@ export default function FilterSidebar({ onApplyFilters, API_URL }) {
     
     try {
       const res = await fetch(`${API_URL}/api/dishs/filter?${params}`)
+      if (!res.ok) {
+        throw new Error('Failed to apply filters.')
+      }
       const data = await res.json()
       onApplyFilters(data)
     } catch (err) {
       console.error(err)
+      setError('Failed to apply filters. Please try again.')
     }
   }
 
@@ -76,6 +82,8 @@ export default function FilterSidebar({ onApplyFilters, API_URL }) {
           <span>$20</span>
         </div>
       </div>
+
+      <ErrorMessage message={error} onDismiss={() => setError(null)} />
 
       <button className="apply-btn" onClick={handleApplyFilters}>
         Apply filters

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import CalendarHeader from "../components/CalendarHeader";
+import ErrorMessage from "../components/ErrorMessage.jsx";
 import "./tracker.css";
 
 // format Date -> 'YYYY-MM-DD' (local, no UTC shift)
@@ -42,6 +43,7 @@ const Tracker = ({ API_URL, user, weights = [], setWeights, weightUnit = "kg" })
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [showModal, setShowModal] = useState(false);
   const [weightInput, setWeightInput] = useState("");
+  const [error, setError] = useState(null);
 
   const userId = user && user.id;
 
@@ -60,6 +62,7 @@ const Tracker = ({ API_URL, user, weights = [], setWeights, weightUnit = "kg" })
   const saveWeight = async (e) => {
     e.preventDefault();
     if (!userId || weightInput === "") return;
+    setError(null);
     try {
       const res = await fetch(`${API_URL}/api/weights`, {
         method: "POST",
@@ -86,6 +89,7 @@ const Tracker = ({ API_URL, user, weights = [], setWeights, weightUnit = "kg" })
       closeModal();
     } catch (err) {
       console.error(err);
+      setError(err.message || "Failed to save weight. Please try again.");
     }
   };
 
@@ -111,6 +115,7 @@ const Tracker = ({ API_URL, user, weights = [], setWeights, weightUnit = "kg" })
       closeModal();
     } catch (err) {
       console.error(err);
+      setError(err.message || "Failed to delete weight. Please try again.");
     }
   };
 
@@ -145,6 +150,7 @@ const Tracker = ({ API_URL, user, weights = [], setWeights, weightUnit = "kg" })
             <h3 className="tracker-modal-title">Weight Record</h3>
             <p className="tracker-modal-date">{formatLabel(selectedDate)}</p>
             <div className="tracker-modal-unit-badge">Current unit: {weightUnit}</div>
+            <ErrorMessage message={error} onDismiss={() => setError(null)} />
             <form onSubmit={saveWeight}>
               <input
                 className="tracker-modal-input"
