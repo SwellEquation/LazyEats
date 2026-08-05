@@ -4,7 +4,7 @@ import passport from 'passport'
 
 const router = express.Router()
 
-const CLIENT_URL = process.env.NODE_ENV === 'development'
+const CLIENT_URL = process.env.NODE_ENV === 'production'
     ? 'https://lazyeatclient.onrender.com'
     : 'http://localhost:5173'
 
