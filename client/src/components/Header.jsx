@@ -3,17 +3,21 @@ import { Link, useLocation } from 'react-router-dom'
 
 const navItems = [
   { label: 'Recipes', path: '/' },
-  { label: 'Tracker', path: '/tracker' },
-  { label: 'Ingredients', path: '/foods-nutrients' },
+  { label: 'Weight Tracker', path: '/tracker' },
+  { label: 'Meals & Ingredients', path: '/foods-nutrients' },
   { label: 'Profile', path: '/profile' },
 ]
 
-function Header() {
+function Header({ isLoggedIn, user }) {
   const location = useLocation()
+  const avatarUrl = user?.avatarurl || user?.avatar_url || user?.avatarUrl
+  const avatarAlt = user?.username ? `${user.username} avatar` : 'User avatar'
 
   return (
-    <div className="topbar">
-      <Link to='/'><div className="logo">Lazy<span>Eats</span></div></Link>
+    <div className={`topbar ${!isLoggedIn ? 'logged-out' : ''}`}>
+      <Link to='/' className="logo-link">
+        <div className="logo">Lazy<span> Eat</span></div>
+      </Link>
       <div className="nav">
         {navItems.map((item) => (
           <Link
@@ -25,7 +29,11 @@ function Header() {
           </Link>
         ))}
       </div>
-      <div className="avatar">L</div>
+      {isLoggedIn && avatarUrl && (
+        <Link to="/profile" className="avatar-link" aria-label="Go to profile">
+          <img className="avatar" src={avatarUrl} alt={avatarAlt} referrerPolicy="no-referrer" />
+        </Link>
+      )}
     </div>
   )
 }

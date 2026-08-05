@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import './FilterSidebar.css'
 
 export default function FilterSidebar({ onApplyFilters, API_URL }) {
@@ -82,6 +83,9 @@ export default function FilterSidebar({ onApplyFilters, API_URL }) {
       <button className="clear-btn" onClick={handleClear}>
         Clear all
       </button>
+      <Link to='/dishes/new' className='create-btn'>
+        + Create Dish
+      </Link>
     </div>
   )
 }

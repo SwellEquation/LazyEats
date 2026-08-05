@@ -1,26 +1,28 @@
 .profile {
-  margin: 20px 5%;
+  margin: 24px 5%;
 }
 
 .profile-empty {
   margin: 40px;
   text-align: center;
   color: #97c459;
+  font-size: 18px;
 }
 
 .profile-info {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 18px;
+  gap: 20px;
+  padding: 24px;
   background: #ffffff;
-  border-bottom: 0.5px solid #c8e6c9;
-  border-radius: 6px;
+  border-bottom: 1px solid #c8e6c9;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(23, 52, 4, 0.06);
 }
 
 .profile-avatar {
-  width: 64px;
-  height: 64px;
+  width: 84px;
+  height: 84px;
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid #c8e6c9;
@@ -28,31 +30,71 @@
 
 .profile-name {
   margin: 0;
-  font-size: 20px;
+  font-size: 24px;
   color: #27500a;
 }
 
 .profile-sub {
-  margin: 4px 0 0;
-  font-size: 13px;
+  margin: 6px 0 0;
+  font-size: 16px;
   color: #97c459;
 }
 
 .profile-chart-box {
-  margin-top: 16px;
-  padding: 18px;
+  margin-top: 20px;
+  padding: 24px;
   background: #ffffff;
-  border-radius: 6px;
-  border-bottom: 0.5px solid #c8e6c9;
+  border-radius: 12px;
+  border-bottom: 1px solid #c8e6c9;
+  box-shadow: 0 6px 18px rgba(23, 52, 4, 0.06);
 }
 
 .profile-chart-title {
-  margin: 0 0 14px;
-  font-size: 16px;
+  margin: 0 0 16px;
+  font-size: 20px;
   color: #27500a;
+}
+
+.profile-chart-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.profile-unit-toggle {
+  display: inline-flex;
+  background: #f2f7f2;
+  border: 1px solid #c8e6c9;
+  border-radius: 999px;
+  padding: 4px;
+}
+
+.profile-unit-btn {
+  border: none;
+  background: transparent;
+  color: #3b6d11;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.profile-unit-btn.active {
+  background: #1e5c2e;
+  color: #ffffff;
 }
 
 .profile-chart-empty {
   color: #97c459;
-  font-size: 14px;
+  font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  .profile-chart-head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }

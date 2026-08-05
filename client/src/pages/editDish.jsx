@@ -3,23 +3,31 @@ import { useNavigate, useParams } from 'react-router-dom'
 import './dishDetail.css'
 import './editDish.css'
 
-const EditDish = ({ title, data, API_URL }) => {
+const EditDish = ({ title, API_URL }) => {
   const { id } = useParams()
   const navigate = useNavigate()
   const [form, setForm] = useState(null)
 
   useEffect(() => {
     document.title = title
-    const foundDish = data.find(d => d.id == id)
-    if (foundDish) {
-      setForm({
-        name: foundDish.name,
-        cooking_time: foundDish.cooking_time,
-        cost: foundDish.cost,
-        img_url: foundDish.img_url || ''
-      })
+    const fetchDish = async () => {
+      try {
+        const res = await fetch(`${API_URL}/api/dishs/${id}`)
+        const dish = await res.json()
+        setForm({
+          name: dish.name,
+          cooking_time: dish.cooking_time,
+          cost: dish.cost,
+          img_url: dish.img_url || '',
+          instructions: dish.instructions || '',
+          ingredients: dish.ingredients || ''
+        })
+      } catch (err) {
+        console.error('Failed to load dish:', err)
+      }
     }
-  }, [title, id, data])
+    fetchDish()
+  }, [title, id, API_URL])
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value })
@@ -34,7 +42,9 @@ const EditDish = ({ title, data, API_URL }) => {
         name: form.name,
         cooking_time: Number(form.cooking_time),
         cost: Number(form.cost),
-        img_url: form.img_url
+        img_url: form.img_url,
+        instructions: form.instructions,
+        ingredients: form.ingredients
       })
     })
     window.location.href = '/'
@@ -67,6 +77,16 @@ const EditDish = ({ title, data, API_URL }) => {
         <label>
           Image URL
           <input name='img_url' value={form.img_url} onChange={handleChange} />
+        </label>
+
+        <label>
+          Recipe Instructions
+          <textarea name='instructions' value={form.instructions} onChange={handleChange} rows={8} />
+        </label>
+
+        <label>
+          Ingredients
+          <textarea name='ingredients' value={form.ingredients} onChange={handleChange} rows={6} />
         </label>
 
         <div className='card-actions'>

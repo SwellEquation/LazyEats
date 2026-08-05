@@ -69,6 +69,16 @@ app.use('/api/weights', weightRoute)
 
 const PORT = process.env.PORT || 3001
 
+// add new columns if they don't exist yet (safe to run every startup)
+const { pool } = await import('./config/database.js')
+try {
+  await pool.query(`ALTER TABLE dishes ADD COLUMN IF NOT EXISTS instructions TEXT`)
+  await pool.query(`ALTER TABLE dishes ADD COLUMN IF NOT EXISTS ingredients TEXT`)
+  console.log('✅ Dish columns verified')
+} catch (err) {
+  console.error('⚠️ Column migration failed:', err.message)
+}
+
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
 })

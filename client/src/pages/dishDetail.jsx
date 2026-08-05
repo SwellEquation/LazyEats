@@ -2,52 +2,44 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams, Link } from 'react-router-dom'
 import './dishDetail.css'
 
-const DishDetail = ({ title, data, API_URL }) => {
+const DishDetail = ({ title, API_URL }) => {
   const { id } = useParams()
   const navigate = useNavigate()
   const [dish, setDish] = useState(null)
   const [nutrients, setNutrients] = useState([])
   const [loading, setLoading] = useState(true)
-  
 
   useEffect(() => {
     document.title = title
-    const foundDish = data.find(d => d.id == id)
-    setDish(foundDish)
-  }, [title, id, data])
+  }, [title])
 
-
-  // Get the nutrients
   useEffect(() => {
-    document.title = title
-
-    const fetchNutrients = async()=>{
-      try{
-        const response = await fetch(`${API_URL}/api/dish-nutrients/dish/${id}`)
-        const data = await response.json()
-        setNutrients(data)
-        console.log(data)
-      }catch(err){
-         console.error('Nutrients fetch failed:', err)
-      }finally{
+    const fetchAll = async () => {
+      try {
+        const [dishRes, nutrientRes] = await Promise.all([
+          fetch(`${API_URL}/api/dishs/${id}`),
+          fetch(`${API_URL}/api/dish-nutrients/dish/${id}`)
+        ])
+        const dishData = await dishRes.json()
+        const nutrientData = await nutrientRes.json()
+        setDish(dishData.error ? null : dishData)
+        setNutrients(Array.isArray(nutrientData) ? nutrientData : [])
+      } catch (err) {
+        console.error('Fetch failed:', err)
+      } finally {
         setLoading(false)
       }
     }
-    
-    fetchNutrients()
-    
-    
-  }, [title, id, API_URL])
-
+    fetchAll()
+  }, [id, API_URL])
 
   const handleDelete = async () => {
-    await fetch(`${API_URL}/api/dishs/${id}`, {
-      method: 'DELETE'
-    })
+    await fetch(`${API_URL}/api/dishs/${id}`, { method: 'DELETE' })
     window.location.href = '/'
   }
 
-  if (!dish || loading) return <div className='loading'>Loading...</div>
+  if (loading) return <div className='loading'>Loading...</div>
+  if (!dish) return <div className='loading'>Dish not found</div>
 
   return (
     <div className='card recipe-detail'>
@@ -56,15 +48,33 @@ const DishDetail = ({ title, data, API_URL }) => {
       </div>
 
       <div className='card-bottom'>
+        {dish.img_url && (
+          <img src={dish.img_url} alt={dish.name} className='dish-image' />
+        )}
         <p>Cooking time: {dish.cooking_time} mins</p>
         <p>Cost: ${dish.cost}</p>
-        {dish.img_url && <p>Image: {dish.img_url}</p>}
 
+        {dish.ingredients && (
+          <div className='dish-section'>
+            <h4>Ingredients</h4>
+            <div className='dish-ing-list'>
+              {dish.ingredients.split('\n').filter(Boolean).map((line, i) => (
+                <span key={i} className='dish-ing-tag'>{line}</span>
+              ))}
+            </div>
+          </div>
+        )}
 
+        {dish.instructions && (
+          <div className='dish-section'>
+            <h4>Instructions</h4>
+            <p className='dish-instructions-text'>{dish.instructions}</p>
+          </div>
+        )}
       </div>
 
-      <div className='nutrients-container'>
-        {nutrients && nutrients.length > 0 ? (
+      {nutrients.length > 0 && (
+        <div className='nutrients-container'>
           <div className='nutrients-list'>
             {nutrients.map((nutrient, index) => (
               <div key={index} className='nutrient-row'>
@@ -73,18 +83,13 @@ const DishDetail = ({ title, data, API_URL }) => {
               </div>
             ))}
           </div>
-        ) : (
-          <h3>No nutrients</h3>
-        )}
-      </div>
-      
-      
+        </div>
+      )}
+
       <div className='card-actions'>
-          <Link to={`/dishes/${id}/edit`} className='btn btn-update'>Update</Link>
-          <button className='btn btn-delete' onClick={handleDelete}>Delete</button>
+        <Link to={`/dishes/${id}/edit`} className='btn btn-update'>Update</Link>
+        <button className='btn btn-delete' onClick={handleDelete}>Delete</button>
       </div>
-
-
     </div>
   )
 }

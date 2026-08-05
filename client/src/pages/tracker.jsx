@@ -24,7 +24,21 @@ function formatLabel(date) {
   });
 }
 
-const Tracker = ({ API_URL, user, weights = [], setWeights }) => {
+function kgToLb(kg) {
+  return Number(kg) * 2.20462;
+}
+
+function lbToKg(lb) {
+  return Number(lb) / 2.20462;
+}
+
+function formatWeight(value, unit) {
+  const numeric = Number(value);
+  if (Number.isNaN(numeric)) return "";
+  return unit === "lb" ? kgToLb(numeric).toFixed(1) : numeric.toString();
+}
+
+const Tracker = ({ API_URL, user, weights = [], setWeights, weightUnit = "kg" }) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [showModal, setShowModal] = useState(false);
   const [weightInput, setWeightInput] = useState("");
@@ -37,7 +51,7 @@ const Tracker = ({ API_URL, user, weights = [], setWeights }) => {
   );
 
   const openModal = () => {
-    setWeightInput(recordForDate ? String(recordForDate.weight) : "");
+    setWeightInput(recordForDate ? formatWeight(recordForDate.weight, weightUnit) : "");
     setShowModal(true);
   };
 
@@ -53,7 +67,7 @@ const Tracker = ({ API_URL, user, weights = [], setWeights }) => {
         credentials: "include",
         body: JSON.stringify({
           user_id: userId,
-          weight: Number(weightInput),
+          weight: weightUnit === "lb" ? Number(lbToKg(weightInput).toFixed(3)) : Number(weightInput),
           recorded_date: dateKey,
         }),
       });
@@ -75,26 +89,53 @@ const Tracker = ({ API_URL, user, weights = [], setWeights }) => {
     }
   };
 
+  const deleteWeight = async () => {
+    if (!recordForDate) return;
+    const confirmed = window.confirm(
+      `Delete weight record for ${formatLabel(selectedDate)}?`
+    );
+    if (!confirmed) return;
+    try {
+      const res = await fetch(`${API_URL}/api/weights/${recordForDate.id}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || `Delete failed (${res.status})`);
+      }
+      setWeights((prev) =>
+        prev.filter((w) => recordKey(w.recorded_date) !== dateKey)
+      );
+      setWeightInput("");
+      closeModal();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <div>
       <CalendarHeader
         selectedDate={selectedDate}
         onSelectDate={setSelectedDate}
+        weights={weights}
+        weightUnit={weightUnit}
       />
 
       <div className="tracker-box">
         <span className="tracker-box-label">
           Weight Record
           {recordForDate && (
-            <span className="tracker-box-value"> · {recordForDate.weight} kg</span>
+            <span className="tracker-box-value"> · {formatWeight(recordForDate.weight, weightUnit)} {weightUnit}</span>
           )}
         </span>
         <button
-          className="tracker-add-btn"
+          className={`tracker-add-btn ${recordForDate ? "is-edit" : "is-add"}`}
           onClick={openModal}
-          aria-label="Add weight record"
+          aria-label={recordForDate ? "Edit weight record" : "Add weight record"}
         >
-          +
+          {recordForDate ? "Edit Record" : "+"}
         </button>
       </div>
 
@@ -103,18 +144,28 @@ const Tracker = ({ API_URL, user, weights = [], setWeights }) => {
           <div className="tracker-modal" onClick={(e) => e.stopPropagation()}>
             <h3 className="tracker-modal-title">Weight Record</h3>
             <p className="tracker-modal-date">{formatLabel(selectedDate)}</p>
+            <div className="tracker-modal-unit-badge">Current unit: {weightUnit}</div>
             <form onSubmit={saveWeight}>
               <input
                 className="tracker-modal-input"
                 type="number"
                 step="0.1"
                 min="0"
-                placeholder="Enter weight (kg)"
+                placeholder={`Enter weight (${weightUnit})`}
                 value={weightInput}
                 onChange={(e) => setWeightInput(e.target.value)}
                 autoFocus
               />
               <div className="tracker-modal-actions">
+                {recordForDate && (
+                  <button
+                    type="button"
+                    className="tracker-modal-delete"
+                    onClick={deleteWeight}
+                  >
+                    Delete
+                  </button>
+                )}
                 <button
                   type="button"
                   className="tracker-modal-cancel"

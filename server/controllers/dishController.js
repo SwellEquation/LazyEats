@@ -52,11 +52,11 @@ const filterDishes = async(req, res) => {
 
 const createDish = async(req, res) => {
     try {
-        const { name, img_url, cooking_time, cost } = req.body
+        const { name, img_url, cooking_time, cost, instructions, ingredients } = req.body
         const result = await pool.query(
-            `INSERT INTO dishes (name, img_url, cooking_time, cost)
-             VALUES ($1, $2, $3, $4) RETURNING *`,
-            [name, img_url, cooking_time, cost]
+            `INSERT INTO dishes (name, img_url, cooking_time, cost, instructions, ingredients)
+             VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
+            [name, img_url, cooking_time, cost, instructions || null, ingredients || null]
         )
         res.status(201).json(result.rows[0])
     } catch (err) {
@@ -67,12 +67,12 @@ const createDish = async(req, res) => {
 const updateDish = async(req, res) => {
     try {
         const { id } = req.params
-        const { name, img_url, cooking_time, cost } = req.body
+        const { name, img_url, cooking_time, cost, instructions, ingredients } = req.body
         const result = await pool.query(
             `UPDATE dishes
-             SET name = $1, img_url = $2, cooking_time = $3, cost = $4
-             WHERE id = $5 RETURNING *`,
-            [name, img_url, cooking_time, cost, id]
+             SET name = $1, img_url = $2, cooking_time = $3, cost = $4, instructions = $5, ingredients = $6
+             WHERE id = $7 RETURNING *`,
+            [name, img_url, cooking_time, cost, instructions || null, ingredients || null, id]
         )
         if (result.rows.length === 0) {
             return res.status(404).json({ error: 'Dish not found' })
