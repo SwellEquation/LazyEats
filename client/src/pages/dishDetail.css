@@ -71,3 +71,49 @@
   text-align: right;
   color: #666;
 }
+
+.dish-image {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+
+.dish-section {
+  margin-top: 14px;
+  border-top: 1px solid #c8e6c9;
+  padding-top: 10px;
+}
+
+.dish-section h4 {
+  font-size: 13px;
+  color: #173404;
+  margin: 0 0 8px;
+}
+
+.dish-ing-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.dish-ing-tag {
+  display: inline-block;
+  font-size: 13px;
+  border-radius: 999px;
+  padding: 4px 10px;
+  background-color: #eaf3de;
+  border: 1px solid #97C459;
+  color: #27500a;
+}
+
+.dish-instructions-text {
+  font-size: 13px;
+  color: #333;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  max-height: 200px;
+  overflow-y: auto;
+  margin: 0;
+}

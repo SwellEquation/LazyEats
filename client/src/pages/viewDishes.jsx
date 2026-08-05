@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import Card from '../components/Card.jsx'
 import './viewDishes.css'
 import './dishDetail.css'
@@ -41,13 +40,9 @@ const ViewDishes = ({ title, data, API_URL }) => {
               est_cost={dish.cost}
             />
           ))}
-
-            <div className='card'>
-              <Link to='/dishes/new' className=' create-link'>+ Create Dish</Link>
-            </div>
         </div>)
         }
-        
+
       </div>
     </div>
   )

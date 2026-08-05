@@ -1,124 +1,140 @@
-import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import Card from '../components/Card.jsx'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import './FoodIngredientSearch.css'
-const FoodItem = ({ food, API_URL }) => {
-    const [ingredients, setIngredients] = useState([])
-    const [loading, setLoading] = useState(false)
 
-    useEffect(() => {
-        const fetchIngredients = async () => {
-            setLoading(true)
-            try {
-                const response = await fetch(`${API_URL}/api/food-ingredients/food/${food.id}`)
-                const data = await response.json()
-                console.log('Ingredients for food', food.id, ':', data)
-                setIngredients(data)
-            } catch (error) {
-                console.error('Error fetching ingredients:', error)
-                setIngredients([])
-            }
-            setLoading(false)
+const MEALDB_URL = 'https://www.themealdb.com/api/json/v1/1/search.php'
+
+const extractIngredients = (meal) => {
+    const ingredients = []
+    for (let i = 1; i <= 20; i++) {
+        const ing = meal[`strIngredient${i}`]
+        const measure = meal[`strMeasure${i}`]
+        if (ing && ing.trim()) {
+            ingredients.push({ name: ing.trim(), measure: measure ? measure.trim() : '' })
         }
-        fetchIngredients()
-    }, [food.id, API_URL])
+    }
+    return ingredients
+}
+
+const MealItem = ({ meal, onAddToRecipe }) => {
+    const ingredients = extractIngredients(meal)
 
     return (
         <div className="food-item-container">
-            <h3>{food.name} ({food.brand})</h3>
-            {/* <p>{food.brand}</p> */}
-            {/* <img src={food.img_url} alt={food.name} /> */}
+            <div className="meal-header">
+                {meal.strMealThumb && (
+                    <img src={meal.strMealThumb} alt={meal.strMeal} className="meal-thumb" />
+                )}
+                <div className="meal-info">
+                    <h3>{meal.strMeal}</h3>
+                    {meal.strCategory && (
+                        <p className="meal-meta"><strong>Category:</strong> {meal.strCategory}</p>
+                    )}
+                    {meal.strCountry && (
+                        <p className="meal-meta"><strong>Country:</strong> {meal.strCountry}</p>
+                    )}
+                    {meal.strTags && (
+                        <p className="meal-meta"><strong>Tags:</strong> {meal.strTags}</p>
+                    )}
+                    <button className="btn-add-recipe" onClick={() => onAddToRecipe(meal)}>
+                        + Add to Recipe
+                    </button>
+                </div>
+            </div>
             <div className="ingredients">
-                
                 <h4>All Ingredients:</h4>
-                {loading ? (
-                    <p>Loading...</p>
-                ) : ingredients.length > 0 ? (
-                    
+                {ingredients.length > 0 ? (
                     <div className="ingredients-list">
-                            {ingredients.map(ingredient => {
-                                const tagClass = ingredient.type === 'safe' ? 'ing-ok' : ingredient.type === 'risk' ? 'ing-bad' : 'ing-warn'
-                                return (
-                                    <div key={ingredient.id} className={`ing-tag ${tagClass}`}>
-                                        {ingredient.name}
-                                    </div>
-                                )
-                            })}
+                        {ingredients.map((ing, idx) => (
+                            <div key={idx} className="ing-tag ing-ok">
+                                {ing.measure ? `${ing.measure} ${ing.name}` : ing.name}
+                            </div>
+                        ))}
                     </div>
                 ) : (
                     <p>No ingredients found</p>
                 )}
-                <div className='divider'></div>
-                
-                <div><h4>What to watch out for:</h4></div>
-                {ingredients.length > 0 ? (
-                    
-                    <div className="warnings-list">
-                            {ingredients.filter(ingredient => ['risk', 'caution'].includes(ingredient.type)).map(ingredient => {
-                                const tagClass = ingredient.type === 'safe' ? 'ing-ok' : ingredient.type === 'risk' ? 'ing-bad' : 'ing-warn'
-                                return (
-                                    <div className={`flag-text ${tagClass}`}>
-                                        <strong>{ingredient.name}</strong> — {ingredient.description}
-                                    </div>
-                                )
-                            })}
-                    </div>
-                ) : (<p></p>)}
             </div>
         </div>
     )
 }
 
-const FoodIngredientSearch = ({data, API_URL})=>{
+const FoodIngredientSearch = () => {
+    const navigate = useNavigate()
     const [searchInput, setSearchInput] = useState('')
-    const [searchQuery, setSearchQuery] = useState('')
+    const [meals, setMeals] = useState([])
+    const [loading, setLoading] = useState(false)
+    const [searched, setSearched] = useState(false)
 
-    const filteredFoods = searchQuery
-        ? data.filter(food =>
-            food.name.toLowerCase().includes(searchQuery.toLowerCase())
-        )
-        : []
+    const handleAddToRecipe = (meal) => {
+        const ingredientLines = []
+        for (let i = 1; i <= 20; i++) {
+            const ing = meal[`strIngredient${i}`]
+            const measure = meal[`strMeasure${i}`]
+            if (ing && ing.trim()) {
+                ingredientLines.push(measure && measure.trim() ? `${measure.trim()} ${ing.trim()}` : ing.trim())
+            }
+        }
+        navigate('/dishes/new', {
+            state: {
+                name: meal.strMeal,
+                img_url: meal.strMealThumb,
+                instructions: meal.strInstructions,
+                ingredients: ingredientLines.join('\n')
+            }
+        })
+    }
 
-    const handleSearch = () => {
-        setSearchQuery(searchInput)
+    const handleSearch = async () => {
+        if (!searchInput.trim()) return
+        setLoading(true)
+        setSearched(true)
+        try {
+            const response = await fetch(`${MEALDB_URL}?s=${encodeURIComponent(searchInput)}`)
+            const data = await response.json()
+            setMeals(data.meals || [])
+        } catch (error) {
+            console.error('Error fetching meals:', error)
+            setMeals([])
+        }
+        setLoading(false)
+    }
+
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') handleSearch()
     }
 
     return (
         <div className="food-search-container">
-            <div>Ingredient Search</div>
-            
+            <div>Meal & Ingredient Search</div>
+
             <div className='search-part-container'>
                 <input
                     type="text"
-                    placeholder="e.g. Instant noodles, Potato Chips ..."
+                    placeholder="e.g. Chicken, Pasta, Sushi ..."
                     value={searchInput}
                     onChange={(e) => setSearchInput(e.target.value)}
+                    onKeyDown={handleKeyDown}
                     className="search-input"
                 />
                 <button className='search-btn' onClick={handleSearch}>Search</button>
-                
             </div>
 
-            
             <div className="foods-list">
-                {searchQuery ? (
-                    filteredFoods.length > 0 ? (
-
-                        
-                        filteredFoods.map(food => (
-
-
-                            
-                            <FoodItem key={food.id} food={food} API_URL={API_URL} />
+                {loading ? (
+                    <p>Loading...</p>
+                ) : searched ? (
+                    meals.length > 0 ? (
+                        meals.map(meal => (
+                            <MealItem key={meal.idMeal} meal={meal} onAddToRecipe={handleAddToRecipe} />
                         ))
                     ) : (
-                        <p>No foods found</p>
+                        <p>No meals found</p>
                     )
                 ) : (
                     <p></p>
                 )}
             </div>
-            
         </div>
     )
 }

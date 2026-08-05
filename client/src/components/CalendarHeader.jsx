@@ -38,10 +38,32 @@ function formatMonthLabel(date) {
   return date.toLocaleDateString(undefined, { month: 'long', year: 'numeric' })
 }
 
-export default function CalendarHeader({ selectedDate, onSelectDate }) {
+function toDateKey(date) {
+  const y = date.getFullYear()
+  const m = String(date.getMonth() + 1).padStart(2, '0')
+  const d = String(date.getDate()).padStart(2, '0')
+  return `${y}-${m}-${d}`
+}
+
+function recordKey(recordedDate) {
+  return String(recordedDate).slice(0, 10)
+}
+
+function kgToLb(kg) {
+  return Number(kg) * 2.20462
+}
+
+export default function CalendarHeader({ selectedDate, onSelectDate, weights = [], weightUnit = 'kg' }) {
   const [viewDate, setViewDate] = useState(selectedDate || new Date())
   const today = new Date()
   const monthDays = useMemo(() => getMonthGrid(viewDate), [viewDate])
+  const weightsByDate = useMemo(() => {
+    const map = new Map()
+    weights.forEach((w) => {
+      map.set(recordKey(w.recorded_date), w.weight)
+    })
+    return map
+  }, [weights])
 
   const goToPrevMonth = () => {
     setViewDate(new Date(viewDate.getFullYear(), viewDate.getMonth() - 1, 1))
@@ -79,6 +101,7 @@ export default function CalendarHeader({ selectedDate, onSelectDate }) {
 
           const isSelected = selectedDate && isSameDay(day, selectedDate)
           const isToday = isSameDay(day, today)
+          const weightForDay = weightsByDate.get(toDateKey(day))
 
           return (
             <button
@@ -88,6 +111,11 @@ export default function CalendarHeader({ selectedDate, onSelectDate }) {
               onClick={() => onSelectDate && onSelectDate(day)}
             >
               <span className="calendar-day-num">{day.getDate()}</span>
+              {weightForDay !== undefined && (
+                <span className="calendar-day-weight">
+                  {weightUnit === 'lb' ? kgToLb(weightForDay).toFixed(1) : weightForDay} {weightUnit}
+                </span>
+              )}
             </button>
           )
         })}

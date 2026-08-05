@@ -9,8 +9,12 @@ import {
 } from "recharts";
 import "./profile.css";
 
+function kgToLb(kg) {
+  return Number(kg) * 2.20462;
+}
+
 // keep records within last 3 months, sorted ascending by date
-function lastThreeMonths(weights) {
+function lastThreeMonths(weights, weightUnit) {
   const cutoff = new Date();
   cutoff.setMonth(cutoff.getMonth() - 3);
   cutoff.setHours(0, 0, 0, 0);
@@ -24,16 +28,16 @@ function lastThreeMonths(weights) {
         month: "short",
         day: "numeric",
       }),
-      weight: Number(w.weight),
+      weight: weightUnit === "lb" ? Number(kgToLb(w.weight).toFixed(1)) : Number(w.weight),
     }));
 }
 
-const Profile = ({ user, weights = [] }) => {
+const Profile = ({ user, weights = [], weightUnit = "kg", setWeightUnit }) => {
   if (!user || !user.id) {
     return <div className="profile-empty">Please log in.</div>;
   }
 
-  const chartData = lastThreeMonths(weights);
+  const chartData = lastThreeMonths(weights, weightUnit);
 
   return (
     <div className="profile">
@@ -50,7 +54,25 @@ const Profile = ({ user, weights = [] }) => {
 
       {/* weight chart */}
       <div className="profile-chart-box">
-        <h3 className="profile-chart-title">Weight · Last 3 Months</h3>
+        <div className="profile-chart-head">
+          <h3 className="profile-chart-title">Weight · Last 3 Months ({weightUnit})</h3>
+          <div className="profile-unit-toggle" role="group" aria-label="Weight unit">
+            <button
+              type="button"
+              className={`profile-unit-btn ${weightUnit === "kg" ? "active" : ""}`}
+              onClick={() => setWeightUnit && setWeightUnit("kg")}
+            >
+              Metric (kg)
+            </button>
+            <button
+              type="button"
+              className={`profile-unit-btn ${weightUnit === "lb" ? "active" : ""}`}
+              onClick={() => setWeightUnit && setWeightUnit("lb")}
+            >
+              Imperial (lb)
+            </button>
+          </div>
+        </div>
         {chartData.length === 0 ? (
           <p className="profile-chart-empty">No weight records yet.</p>
         ) : (
@@ -64,6 +86,7 @@ const Profile = ({ user, weights = [] }) => {
               <YAxis
                 domain={["dataMin - 1", "dataMax + 1"]}
                 tick={{ fontSize: 12, fill: "#3b6d11" }}
+                label={{ value: weightUnit, angle: -90, position: "insideLeft", fill: "#3b6d11" }}
               />
               <Tooltip />
               <Line

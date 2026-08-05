@@ -143,6 +143,8 @@ const createDishesTable = async() =>{
             img_url TEXT,
             cooking_time INTEGER,
             cost NUMERIC(10, 2),
+            instructions TEXT,
+            ingredients TEXT,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     `

@@ -111,3 +111,25 @@ input[type="range"] {
 .clear-btn:hover {
   color: #639922;
 }
+
+.create-btn {
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px;
+  font-size: 18px;
+  background: #1e5c2e;
+  border: none;
+  color: #ffffff;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.create-btn:hover {
+  background: #1a4824;
+}

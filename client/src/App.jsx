@@ -15,6 +15,7 @@ const App = () => {
   const [dishes, setDishes] = useState([]);
   const [foods, setFoods] = useState([]);
   const [weights, setWeights] = useState([]);
+  const [weightUnit, setWeightUnit] = useState(() => localStorage.getItem('weightUnit') || 'kg');
   // const API_URL = 'http://localhost:3001'
   // const API_URL_PRODUCTION = 'https://lazyeatserver.onrender.com'
   const [user, setUser] = useState()
@@ -85,6 +86,10 @@ const App = () => {
     fetchWeights()
   }, [user])
 
+  useEffect(() => {
+    localStorage.setItem('weightUnit', weightUnit)
+  }, [weightUnit])
+
   let element = useRoutes([
     {
       path: '/',
@@ -99,12 +104,12 @@ const App = () => {
     {
       path: '/dishes/:id',
       element: user && user.id ?
-        <DishDetail title='Lazy Eats | Dish' data={dishes} API_URL={API_URL} /> : <Login API_URL={API_URL} />
+        <DishDetail title='Lazy Eats | Dish' API_URL={API_URL} /> : <Login API_URL={API_URL} />
     },
     {
       path: '/dishes/:id/edit',
       element: user && user.id ?
-        <EditDish title='Lazy Eats | Edit Dish' data={dishes} API_URL={API_URL} /> : <Login API_URL={API_URL} />
+        <EditDish title='Lazy Eats | Edit Dish' API_URL={API_URL} /> : <Login API_URL={API_URL} />
     },
     {
       path: '/foods-nutrients',
@@ -113,12 +118,12 @@ const App = () => {
     },
     {
       path: '/tracker',
-      element: <Tracker API_URL={API_URL} user={user} weights={weights} setWeights={setWeights} />
+      element: <Tracker API_URL={API_URL} user={user} weights={weights} setWeights={setWeights} weightUnit={weightUnit} />
 
     },
     {
       path: '/profile',
-      element: <Profile API_URL={API_URL} user={user} weights={weights} />
+      element: <Profile API_URL={API_URL} user={user} weights={weights} weightUnit={weightUnit} setWeightUnit={setWeightUnit} />
     }
   ])
 

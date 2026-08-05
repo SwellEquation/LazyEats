@@ -3,8 +3,8 @@ import { Link, useLocation } from 'react-router-dom'
 
 const navItems = [
   { label: 'Recipes', path: '/' },
-  { label: 'Tracker', path: '/tracker' },
-  { label: 'Ingredients', path: '/foods-nutrients' },
+  { label: 'Weight Tracker', path: '/tracker' },
+  { label: 'Meals & Ingredients', path: '/foods-nutrients' },
   { label: 'Profile', path: '/profile' },
 ]
 
@@ -30,7 +30,9 @@ function Header({ isLoggedIn, user }) {
         ))}
       </div>
       {isLoggedIn && avatarUrl && (
-        <img className="avatar" src={avatarUrl} alt={avatarAlt} referrerPolicy="no-referrer" />
+        <Link to="/profile" className="avatar-link" aria-label="Go to profile">
+          <img className="avatar" src={avatarUrl} alt={avatarAlt} referrerPolicy="no-referrer" />
+        </Link>
       )}
     </div>
   )

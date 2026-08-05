@@ -66,6 +66,13 @@
   padding-bottom: 2px;
 }
 
+.avatar-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
 .avatar {
   width: 30px;
   height: 30px;
@@ -73,6 +80,12 @@
   object-fit: cover;
   border: 1px solid #9ed989;
   box-shadow: 0 0 0 2px rgba(20, 61, 31, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.avatar-link:hover .avatar {
+  transform: translateY(-1px);
+  box-shadow: 0 0 0 2px rgba(20, 61, 31, 0.35), 0 4px 10px rgba(0, 0, 0, 0.12);
 }
 
 @media (max-width: 768px) {

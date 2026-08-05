@@ -55,7 +55,46 @@
   color: #27500a;
 }
 
+.profile-chart-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.profile-unit-toggle {
+  display: inline-flex;
+  background: #f2f7f2;
+  border: 1px solid #c8e6c9;
+  border-radius: 999px;
+  padding: 4px;
+}
+
+.profile-unit-btn {
+  border: none;
+  background: transparent;
+  color: #3b6d11;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.profile-unit-btn.active {
+  background: #1e5c2e;
+  color: #ffffff;
+}
+
 .profile-chart-empty {
   color: #97c459;
   font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  .profile-chart-head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }

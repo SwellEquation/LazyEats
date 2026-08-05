@@ -39,6 +39,50 @@
     box-shadow: 0 6px 18px rgba(23, 52, 4, 0.06);
 }
 
+.meal-header {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    margin-bottom: 16px;
+}
+
+.meal-thumb {
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 12px;
+    flex-shrink: 0;
+}
+
+.meal-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.meal-info h3 {
+    margin: 0 0 4px;
+}
+
+.meal-meta {
+    font-size: 15px;
+    color: #27500a;
+    margin: 0;
+}
+
+.btn-add-recipe {
+    margin-top: 8px;
+    align-self: flex-start;
+    background: #1e5c2e;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 6px 14px;
+    cursor: pointer;
+}
+
 .ingredients-list {
     display: flex;
     flex-wrap: wrap;
