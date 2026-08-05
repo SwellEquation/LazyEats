@@ -10,6 +10,7 @@ import './App.css'
 import Login from './pages/Login.jsx'
 import Tracker from './pages/tracker.jsx'
 import Profile from './pages/profile.jsx'
+import ErrorMessage from './components/ErrorMessage.jsx'
 
 const App = () => {
   const [dishes, setDishes] = useState([]);
@@ -19,6 +20,7 @@ const App = () => {
   // const API_URL = 'http://localhost:3001'
   // const API_URL_PRODUCTION = 'https://lazyeatserver.onrender.com'
   const [user, setUser] = useState()
+  const [error, setError] = useState(null)
 
   const API_URL = import.meta.env.PROD ? 'https://lazyeatserver.onrender.com' : 'http://localhost:3001'
   // useEffect(() => {
@@ -55,6 +57,11 @@ const App = () => {
           fetch(`${API_URL}/api/foods`),
           fetch(`${API_URL}/auth/login/success`, { credentials: 'include' })
         ])
+
+        // only dishRes/foodRes are checked here
+        if (!dishRes.ok || !foodRes.ok) {
+          throw new Error('Failed to load dishes or foods')
+        } 
         
         const dishes = await dishRes.json()
         const foods = await foodRes.json()
@@ -65,6 +72,7 @@ const App = () => {
         setUser(user.user)
       } catch (err) {
         console.error(err)
+        setError('Something went wrong loading the app. Please refresh the page.')
       }
     }
 
@@ -77,18 +85,18 @@ const App = () => {
     const fetchWeights = async () => {
       try {
         const res = await fetch(`${API_URL}/api/weights/${user.id}`, { credentials: 'include' })
+        if (!res.ok) {
+          throw new Error('Failed to load weight records.')
+        }
         const data = await res.json()
         setWeights(Array.isArray(data) ? data : [])
       } catch (err) {
         console.error(err)
+        setError('Could not load your weight records. Please try again later.')
       }
     }
     fetchWeights()
   }, [user])
-
-  useEffect(() => {
-    localStorage.setItem('weightUnit', weightUnit)
-  }, [weightUnit])
 
   useEffect(() => {
     localStorage.setItem('weightUnit', weightUnit)
@@ -145,6 +153,7 @@ const App = () => {
     <div className='app'>
 
       <Header isLoggedIn={Boolean(user && user.id)} user={user} />
+      <ErrorMessage message={error} onDismiss={() => setError(null)} />
 
       { element }
 

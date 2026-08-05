@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams, Link } from 'react-router-dom'
+import ErrorMessage from '../components/ErrorMessage.jsx'
 import './dishDetail.css'
 
 const DishDetail = ({ title, API_URL }) => {
@@ -8,6 +9,7 @@ const DishDetail = ({ title, API_URL }) => {
   const [dish, setDish] = useState(null)
   const [nutrients, setNutrients] = useState([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     document.title = title
@@ -20,12 +22,16 @@ const DishDetail = ({ title, API_URL }) => {
           fetch(`${API_URL}/api/dishs/${id}`),
           fetch(`${API_URL}/api/dish-nutrients/dish/${id}`)
         ])
+        if (!dishRes.ok) {
+          throw new Error('Failed to load dish.')
+        }
         const dishData = await dishRes.json()
         const nutrientData = await nutrientRes.json()
         setDish(dishData.error ? null : dishData)
         setNutrients(Array.isArray(nutrientData) ? nutrientData : [])
       } catch (err) {
         console.error('Fetch failed:', err)
+        setError('Could not load this dish. Please try again.')
       } finally {
         setLoading(false)
       }
@@ -34,12 +40,21 @@ const DishDetail = ({ title, API_URL }) => {
   }, [id, API_URL])
 
   const handleDelete = async () => {
-    await fetch(`${API_URL}/api/dishs/${id}`, { method: 'DELETE' })
-    window.location.href = '/'
+    setError(null)
+    try {
+      const res = await fetch(`${API_URL}/api/dishs/${id}`, { method: 'DELETE' })
+      if (!res.ok) {
+        throw new Error('Failed to delete dish.')
+      }
+      window.location.href = '/'
+    } catch (err) {
+      console.error('Delete dish failed:', err)
+      setError('Could not delete this dish. Please try again.')
+    }
   }
 
   if (loading) return <div className='loading'>Loading...</div>
-  if (!dish) return <div className='loading'>Dish not found</div>
+  if (!dish) return <div className='loading'><ErrorMessage message={error || 'Dish not found'} /></div>
 
   return (
     <div className='card recipe-detail'>
@@ -86,6 +101,8 @@ const DishDetail = ({ title, API_URL }) => {
         </div>
       )}
 
+      <ErrorMessage message={error} onDismiss={() => setError(null)} />
+        
       <div className='card-actions'>
         <Link to={`/dishes/${id}/edit`} className='btn btn-update'>Update</Link>
         <button className='btn btn-delete' onClick={handleDelete}>Delete</button>

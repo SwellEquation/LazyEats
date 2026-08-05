@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
+import ErrorMessage from '../components/ErrorMessage.jsx'
 import './dishDetail.css'
 import './editDish.css'
 
@@ -31,6 +32,7 @@ const CreateDish = ({ title, API_URL }) => {
     ingredients: prefill.ingredients || ''
   })
   const [fetching, setFetching] = useState({ img_url: false, instructions: false, ingredients: false })
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     document.title = title
@@ -43,8 +45,12 @@ const CreateDish = ({ title, API_URL }) => {
   const fetchFromMealDB = async (field) => {
     if (!form.name.trim()) return
     setFetching(prev => ({ ...prev, [field]: true }))
+    setError(null)
     try {
       const res = await fetch(`${MEALDB_URL}?s=${encodeURIComponent(form.name)}`)
+      if (!res.ok) {
+        throw new Error('MealDB request failed.')
+      }
       const data = await res.json()
       if (data.meals && data.meals.length > 0) {
         const meal = data.meals[0]
@@ -53,33 +59,41 @@ const CreateDish = ({ title, API_URL }) => {
         else if (field === 'img_url') value = meal.strMealThumb || ''
         else if (field === 'ingredients') value = formatIngredients(meal)
         setForm(prev => ({ ...prev, [field]: value }))
+      } else {
+        setError(`No results found on MealDB for "${form.name}"`)
       }
     } catch (err) {
       console.error('MealDB fetch failed:', err)
+      setError('Could not reach MealDB, please try again.')
     }
     setFetching(prev => ({ ...prev, [field]: false }))
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const res = await fetch(`${API_URL}/api/dishs`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        name: form.name,
-        cooking_time: Number(form.cooking_time),
-        cost: Number(form.cost),
-        img_url: form.img_url,
-        instructions: form.instructions,
-        ingredients: form.ingredients
+    setError(null)
+    try {
+      const res = await fetch(`${API_URL}/api/dishs`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name,
+          cooking_time: Number(form.cooking_time),
+          cost: Number(form.cost),
+          img_url: form.img_url,
+          instructions: form.instructions,
+          ingredients: form.ingredients
+        })
       })
-    })
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}))
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}))
+        throw new Error(err.error || 'Failed to create dish.')
+      }
+      window.location.href = '/'
+    } catch (err) {
       console.error('Create dish failed:', err)
-      return
+      setError('Could not create dish. Please try again.')
     }
-    window.location.href = '/'
   }
 
   return (
@@ -89,6 +103,7 @@ const CreateDish = ({ title, API_URL }) => {
       </div>
 
       <div className='card-bottom'>
+        <ErrorMessage message={error} onDismiss={() => setError(null)} />
         <label>
           Name
           <input name='name' value={form.name} onChange={handleChange} />

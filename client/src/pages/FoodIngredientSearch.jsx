@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import ErrorMessage from '../components/ErrorMessage.jsx'
 import './FoodIngredientSearch.css'
 
 const MEALDB_URL = 'https://www.themealdb.com/api/json/v1/1/search.php'
@@ -65,6 +66,7 @@ const FoodIngredientSearch = () => {
     const [meals, setMeals] = useState([])
     const [loading, setLoading] = useState(false)
     const [searched, setSearched] = useState(false)
+    const [error, setError] = useState(null)
 
     const handleAddToRecipe = (meal) => {
         const ingredientLines = []
@@ -89,13 +91,18 @@ const FoodIngredientSearch = () => {
         if (!searchInput.trim()) return
         setLoading(true)
         setSearched(true)
+        setError(null)
         try {
             const response = await fetch(`${MEALDB_URL}?s=${encodeURIComponent(searchInput)}`)
+            if (!response.ok) {
+                throw new Error('Search request failed.')
+            }
             const data = await response.json()
             setMeals(data.meals || [])
-        } catch (error) {
-            console.error('Error fetching meals:', error)
+        } catch (err) {
+            console.error('Error fetching meals:', err)
             setMeals([])
+            setError('Could not search right now. Please try again.')
         }
         setLoading(false)
     }
@@ -119,6 +126,8 @@ const FoodIngredientSearch = () => {
                 />
                 <button className='search-btn' onClick={handleSearch}>Search</button>
             </div>
+
+            <ErrorMessage message={error} onDismiss={() => setError(null)} />
 
             <div className="foods-list">
                 {loading ? (
