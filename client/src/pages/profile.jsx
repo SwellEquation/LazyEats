@@ -7,6 +7,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import { useNavigate } from "react-router-dom";
 import "./profile.css";
 
 function kgToLb(kg) {
@@ -32,12 +33,19 @@ function lastThreeMonths(weights, weightUnit) {
     }));
 }
 
-const Profile = ({ user, weights = [], weightUnit = "kg", setWeightUnit }) => {
+const Profile = ({ user, weights = [], weightUnit = "kg", setWeightUnit, onLogout }) => {
+  const navigate = useNavigate();
   if (!user || !user.id) {
     return <div className="profile-empty">Please log in.</div>;
   }
 
   const chartData = lastThreeMonths(weights, weightUnit);
+
+  // waits for the session to actually clear before redirecting to the home page
+  const handleLogoutClick = async () => {
+    await onLogout();
+    navigate('/');
+  };
 
   return (
     <div className="profile">
@@ -50,6 +58,7 @@ const Profile = ({ user, weights = [], weightUnit = "kg", setWeightUnit }) => {
           <h2 className="profile-name">{user.username}</h2>
           <p className="profile-sub">User ID: {user.id}</p>
         </div>
+        <button className="profile-logout-button" onClick={handleLogoutClick}>Log out</button>
       </div>
 
       {/* weight chart */}

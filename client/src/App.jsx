@@ -90,6 +90,20 @@ const App = () => {
     localStorage.setItem('weightUnit', weightUnit)
   }, [weightUnit])
 
+  useEffect(() => {
+    localStorage.setItem('weightUnit', weightUnit)
+  }, [weightUnit])
+
+  // hits the backend logout route to destroy the session then clears local user state so routes fall back to login
+  const handleLogout = async () => {
+    try {
+      await fetch(`${API_URL}/auth/logout`, { credentials: 'include' })
+      setUser(null)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   let element = useRoutes([
     {
       path: '/',
@@ -123,7 +137,7 @@ const App = () => {
     },
     {
       path: '/profile',
-      element: <Profile API_URL={API_URL} user={user} weights={weights} weightUnit={weightUnit} setWeightUnit={setWeightUnit} />
+      element: <Profile API_URL={API_URL} user={user} weights={weights} weightUnit={weightUnit} setWeightUnit={setWeightUnit} onLogout={handleLogout} />
     }
   ])
 
