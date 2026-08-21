@@ -1,12 +1,6 @@
 # LazyEat
 
-CodePath WEB103 Final Project
-link:https://lazyeatclient.onrender.com
 Designed and developed by: Fabian, Liam, Raheem, Steph
-
-
-
-🔗 Link to deployed app:
 
 ## About
 
