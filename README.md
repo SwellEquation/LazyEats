@@ -1,4 +1,4 @@
-# LazyEat
+# LazyEats
 
 Designed and developed by: Fabian, Liam, Raheem, Steph
 
